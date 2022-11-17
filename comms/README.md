@@ -12,10 +12,10 @@ Throughput Test: 1KB message sent
 
 ### Result Images:
 
-<u>Latency Test</u>
+<ins>Latency Test</ins>
 
 ![Latency Screenshot](./assets/ttermpro_m5_latency.png)
 
-<u>Throughput Test</u>
+<ins>Throughput Test</ins>
 
 ![Throughput Screenshot](./assets/ttermpro_m5_throughput.png)
