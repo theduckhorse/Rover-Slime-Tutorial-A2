@@ -1,0 +1,8 @@
+"./main.obj"
+"./startup_msp432p401r_ccs.obj"
+"./system_msp432p401r.obj"
+"./comms/ESP8266.obj"
+"./comms/UART_Driver.obj"
+"../driverlib_empty_project_ccs.cmd"
+"/Users/aviendre/Downloads/msp432_driverlib_3_21_00_05/driverlib/MSP432P4xx/ccs/msp432p4xx_driverlib.lib"
+-llibc.a
