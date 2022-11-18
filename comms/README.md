@@ -40,3 +40,7 @@ To check the round-trip-time, we used the ping feature within laptops. It will r
 ![Latency Screenshot](./assets/espLatency.png)
 
 Latency Test: 64 bytes sent from Laptop to MSP432
+
+## IOT protocols
+Comparison betweeen UDP socket and MQTT
+![Latency](./assets/wifiprotocol.png)
