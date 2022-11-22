@@ -65,6 +65,24 @@ int turning;
 int notchcounter;
 int leftcounter;
 int rightcounter;
+
+int errorLeft;
+double integralLeft;
+double derivativeLeft;
+double lasterrorLeft;
+double outputLeft;
+
+int errorRight;
+double integralRight;
+double derivativeRight;
+double lasterrorRight;
+double outputRight;
+
+int setPoint;
+double kp = 0.5;
+double ki = 0.0001;
+double kd = 0.1;
+
 int debug;
 int distbased;
 //int distancetogo;
@@ -477,6 +495,60 @@ void TA1_0_IRQHandler(void)
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN4);
+
+    // PID
+    // left wheel average 100%
+    // 3175.2
+    // right wheel average 100%
+    // 3331.2
+
+    // Set the target PWM/NPM (Notches Per Minute) to hit (WIP need to determine the correct value)
+    setPoint = pwmConfig.dutyCycle * 0.75; //throttle by 25% ???
+
+    //PID Left Motor
+    //Calculate Error (Proportional)
+    errorLeft = setPoint - (leftcounter*12);
+    //Calculate Integral
+    integralLeft = integralLeft + errorLeft;
+    //Calculate Derivative
+    derivativeLeft = errorLeft - lasterrorRight;
+    //Calculate PID Output
+    outputLeft = (kp * errorLeft) + (ki * integralLeft) + (kd * derivativeLeft);
+    //Limit Output (WIP, need to change)
+    if (outputLeft > 255)
+        outputLeft = 255;
+    if (outputLeft < -255)
+        outputLeft = -255;
+    //Save Error to Last Error
+    lasterrorLeft = errorLeft;
+    //If output is positive, increase pwm. otherwise decrease pwm (WIP need to check if correct way)
+    if (outputLeft > 0)
+        pwmConfig.dutyCycle += outputLeft;
+    else if (outputLeft < 0)
+        pwmConfig.dutyCycle -= outputLeft;
+
+    //PID Right Motor
+    //Calculate Error (Proportional)
+    errorRight = setPoint - (rightcounter*12);
+    //Calculate Integral
+    integralRight = integralRight + errorRight;
+    //Calculate Derivative
+    derivativeRight = errorRight - lasterrorRight;
+    //Calculate PID Output
+    outputRight = (kp * errorRight) + (ki * integralRight) + (kd * derivativeRight);
+    //Limit Output (WIP, need to change)
+    if (outputRight > 255)
+        outputRight = 255;
+    if (outputRight < -255)
+        outputRight = -255;
+    //Save Error to Last Error
+    lasterrorRight = errorRight;
+    //If output is positive, increase pwm. otherwise decrease pwm (WIP need to check if correct way)
+    if (outputRight > 0)
+        pwmConfig.dutyCycle += outputRight;
+    else if (outputRight < 0)
+        pwmConfig.dutyCycle -= outputRight;
+
     if(debug == 1){
         debug = 0;
         leftcounter = leftcounter * 12;
@@ -486,7 +558,6 @@ void TA1_0_IRQHandler(void)
               sprintf(str, "Right Wheel NPM: %d\n\r", rightcounter);
               uPrintf(str);
     }
-
 }
 
 void uPrintf(unsigned char * TxArray)
