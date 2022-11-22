@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?ccsproject version="1.0"?>
+<projectOptions>
+	<ccsVersion value="9.3.0"/>
+	<deviceVariant value="MSP432P401R"/>
+	<deviceFamily value="MSP432"/>
+	<deviceEndianness value="little"/>
+	<codegenToolVersion value="18.12.4.LTS"/>
+	<isElfFormat value="true"/>
+	<linkerCommandFile value="i2c_master_rw_repeated_start-master_code_ccs.cmd"/>
+	<rts value="libc.a"/>
+	<createSlaveProjects value=""/>
+	<ignoreDefaultDeviceSettings value="true"/>
+	<templateProperties value="id=i2c_master_rw_repeated_start-master_code.projectspec.i2c_master_rw_repeated_start-master_code"/>
+	<origin value="C:\Users\Admin\Desktop\msp432_driverlib_3_21_00_05\examples\MSP432P4xx\i2c\i2c_master_rw_repeated_start-master_code\ccs\i2c_master_rw_repeated_start-master_code.projectspec"/>
+	<filesToOpen value="i2c_master_rw_repeated_start-master_code.c"/>
+</projectOptions>
