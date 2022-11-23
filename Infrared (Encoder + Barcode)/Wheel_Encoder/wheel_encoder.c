@@ -40,6 +40,8 @@
 /* Application Defines  */
 #define TIMER_PERIOD 1024 // timer period to get 1 sec timer
 #define TIMEVAL 60        // used to calculate RPM
+#define TOTALNOTCHES 20     // total notches on wheel
+#define CMtoM 100           // convert cm to m
 #define WHEELCIRCUMFERENCE 20.4 // wheel circumference in cm
 #define WHEELDIAMETER 0.65 // wheel diameter in cm
 #define NOTCHLENGTH 1.02 // 1 notch length in cm
@@ -155,12 +157,12 @@ void TA1_0_IRQHandler(void)
 {
     // calculate the current speed in m/s using the average of left and right counter x 1 notch length, then convert cm to meters
     // the curSpeed will also be the current distance that the car has traveled in that 1 second
-    curSpeed = (((leftCounter + rightCounter) / 2) * NOTCHLENGTH) / 100;
+    curSpeed = (((leftCounter + rightCounter) / 2) * NOTCHLENGTH) / CMtoM;
     totalDist += curSpeed; // increment total distance traveled
     if (leftCounter > 0)
     {
         // rpm = (freq x TIMEVAL (to get 1 minute depending on timer used))/20 (number of notches)
-        leftRPM = (leftCounter * TIMEVAL) / 20; // calculate left wheel rpm
+        leftRPM = (leftCounter * TIMEVAL) / TOTALNOTCHES; // calculate left wheel rpm
         leftCounter = 0;                        // reset left counter
     }
     else
@@ -170,7 +172,7 @@ void TA1_0_IRQHandler(void)
 
     if (rightCounter > 0)
     {
-        rightRPM = (rightCounter * TIMEVAL) / 20; // calculate right wheel rpm
+        rightRPM = (rightCounter * TIMEVAL) / TOTALNOTCHES; // calculate right wheel rpm
         rightCounter = 0;                         // reset right counter
     }
     else
