@@ -1,0 +1,203 @@
+******************************************************************************
+                  TI ARM Linker PC v18.12.4                    
+******************************************************************************
+>> Linked Wed Sep 21 16:47:17 2022
+
+OUTPUT FILE NAME:   <Lab3.out>
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000067d
+
+
+MEMORY CONFIGURATION
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  MAIN                  00000000   00040000  00000724  0003f8dc  R  X
+  INFO                  00200000   00004000  00000000  00004000  R  X
+  SRAM_CODE             01000000   00010000  00000000  00010000  RW X
+  SRAM_DATA             20000000   00010000  00000208  0000fdf8  RW  
+
+
+SEGMENT ALLOCATION MAP
+
+run origin  load origin   length   init length attrs members
+----------  ----------- ---------- ----------- ----- -------
+00000000    00000000    00000728   00000728    r-x
+  00000000    00000000    00000140   00000140    r-- .intvecs
+  00000140    00000140    000005b4   000005b4    r-x .text
+  000006f8    000006f8    00000030   00000030    r-- .cinit
+20000000    20000000    00000008   00000000    rw-
+  20000000    20000000    00000004   00000000    rw- .bss
+  20000004    20000004    00000004   00000000    rw- .data
+2000fe00    2000fe00    00000200   00000000    rw-
+  2000fe00    2000fe00    00000200   00000000    rw- .stack
+
+
+SECTION ALLOCATION MAP
+
+ output                                  attributes/
+section   page    origin      length       input sections
+--------  ----  ----------  ----------   ----------------
+.intvecs   0    00000000    00000140     
+                  00000000    00000140     startup_msp432p401r_ccs.obj (.intvecs:retain)
+
+.text      0    00000140    000005b4     
+                  00000140    00000328     system_msp432p401r.obj (.text)
+                  00000468    000000cc     gpio_input_interrupt.obj (.text)
+                  00000534    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
+                  000005d0    00000068                                   : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00000638    00000044                                   : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  0000067c    00000034                                   : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
+                  000006b0    0000001c                                   : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  000006cc    00000012     startup_msp432p401r_ccs.obj (.text)
+                  000006de    0000000e     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  000006ec    00000004                                   : pre_init.c.obj (.text:_system_pre_init)
+                  000006f0    00000004                                   : exit.c.obj (.text:abort:abort)
+
+.cinit     0    000006f8    00000030     
+                  000006f8    0000000c     (__TI_handler_table)
+                  00000704    00000004     --HOLE-- [fill = 0]
+                  00000708    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00000710    00000008     (.cinit..data.load) [load image, compression = lzss]
+                  00000718    00000010     (__TI_cinit_table)
+
+.init_array 
+*          0    00000000    00000000     UNINITIALIZED
+
+.bss       0    20000000    00000004     UNINITIALIZED
+                  20000000    00000004     (.common:counter)
+
+.data      0    20000004    00000004     UNINITIALIZED
+                  20000004    00000004     system_msp432p401r.obj (.data)
+
+.stack     0    2000fe00    00000200     UNINITIALIZED
+                  2000fe00    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
+                  2000fe04    000001fc     --HOLE--
+
+MODULE SUMMARY
+
+       Module                        code   ro data   rw data
+       ------                        ----   -------   -------
+    .\
+       system_msp432p401r.obj        808    0         4      
+       startup_msp432p401r_ccs.obj   18     320       0      
+       gpio_input_interrupt.obj      204    0         4      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        1030   320       8      
+                                                             
+    C:\ti\ccs930\ccs\tools\compiler\ti-cgt-arm_18.12.4.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
+       memcpy_t2.asm.obj             156    0         0      
+       copy_decompress_lzss.c.obj    104    0         0      
+       autoinit.c.obj                68     0         0      
+       boot_cortex_m.c.obj           52     0         0      
+       copy_zero_init.c.obj          28     0         0      
+       copy_decompress_none.c.obj    14     0         0      
+       exit.c.obj                    4      0         0      
+       pre_init.c.obj                4      0         0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        430    0         0      
+                                                             
+       Stack:                        0      0         512    
+       Linker Generated:             0      44        0      
+    +--+-----------------------------+------+---------+---------+
+       Grand Total:                  1460   364       520    
+
+
+LINKER GENERATED COPY TABLES
+
+__TI_cinit_table @ 00000718 records: 2, size/record: 8, table size: 16
+	.bss: load addr=00000708, load size=00000008 bytes, run addr=20000000, run size=00000004 bytes, compression=zero_init
+	.data: load addr=00000710, load size=00000008 bytes, run addr=20000004, run size=00000004 bytes, compression=lzss
+
+
+LINKER GENERATED HANDLER TABLE
+
+__TI_handler_table @ 000006f8 records: 3, size/record: 4, table size: 12
+	index: 0, handler: __TI_decompress_lzss
+	index: 1, handler: __TI_decompress_none
+	index: 2, handler: __TI_zero_init
+
+
+GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
+
+address   name                          
+-------   ----                          
+000006f1  C$$EXIT                       
+000004dd  PORT2_IRQHandler              
+20000004  SystemCoreClock               
+00000141  SystemCoreClockUpdate         
+000003b5  SystemInit                    
+4000480c  WDTCTL_SYM                    
+20010000  __STACK_END                   
+00000200  __STACK_SIZE                  
+00000718  __TI_CINIT_Base               
+00000728  __TI_CINIT_Limit              
+000006f8  __TI_Handler_Table_Base       
+00000704  __TI_Handler_Table_Limit      
+00000639  __TI_auto_init_nobinit_nopinit
+000005d1  __TI_decompress_lzss          
+000006df  __TI_decompress_none          
+ffffffff  __TI_pprof_out_hndl           
+ffffffff  __TI_prof_data_size           
+ffffffff  __TI_prof_data_start          
+00000000  __TI_static_base__            
+000006b1  __TI_zero_init_nomemset       
+00000535  __aeabi_memcpy                
+00000535  __aeabi_memcpy4               
+00000535  __aeabi_memcpy8               
+ffffffff  __binit__                     
+ffffffff  __c_args__                    
+UNDEFED   __mpu_init                    
+2000fe00  __stack                       
+0000067d  _c_int00_noargs               
+UNDEFED   _system_post_cinit            
+000006ed  _system_pre_init              
+000006f1  abort                         
+ffffffff  binit                         
+20000000  counter                       
+00000000  interruptVectors              
+00000469  main                          
+00000535  memcpy                        
+
+
+GLOBAL SYMBOLS: SORTED BY Symbol Address 
+
+address   name                          
+-------   ----                          
+00000000  __TI_static_base__            
+00000000  interruptVectors              
+00000141  SystemCoreClockUpdate         
+00000200  __STACK_SIZE                  
+000003b5  SystemInit                    
+00000469  main                          
+000004dd  PORT2_IRQHandler              
+00000535  __aeabi_memcpy                
+00000535  __aeabi_memcpy4               
+00000535  __aeabi_memcpy8               
+00000535  memcpy                        
+000005d1  __TI_decompress_lzss          
+00000639  __TI_auto_init_nobinit_nopinit
+0000067d  _c_int00_noargs               
+000006b1  __TI_zero_init_nomemset       
+000006df  __TI_decompress_none          
+000006ed  _system_pre_init              
+000006f1  C$$EXIT                       
+000006f1  abort                         
+000006f8  __TI_Handler_Table_Base       
+00000704  __TI_Handler_Table_Limit      
+00000718  __TI_CINIT_Base               
+00000728  __TI_CINIT_Limit              
+20000000  counter                       
+20000004  SystemCoreClock               
+2000fe00  __stack                       
+20010000  __STACK_END                   
+4000480c  WDTCTL_SYM                    
+ffffffff  __TI_pprof_out_hndl           
+ffffffff  __TI_prof_data_size           
+ffffffff  __TI_prof_data_start          
+ffffffff  __binit__                     
+ffffffff  __c_args__                    
+ffffffff  binit                         
+UNDEFED   __mpu_init                    
+UNDEFED   _system_post_cinit            
+
+[36 symbols]
