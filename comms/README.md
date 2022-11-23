@@ -7,10 +7,12 @@
 
 
 ## UART Performance
+![UART Latency](./assets/latencyChart.png)
+
 |Technology          |Latency          |Throughput |
 |--------------------|-----------------|-----------|
-|Wi-Fi M5stickC Plus |0.1346 ms/message|8.0973 KB/s|
-|Wi-Fi ESP8266       |201.320 ms       |2.6213 MB/s|
+|Wi-Fi M5stickC Plus |130.662 ms         |0.40171 MB/s|
+|Wi-Fi ESP8266       |201.320 ms       |0.26213 MB/s|
 
 We are able to calculate the throughput using the formula: 
 
@@ -29,6 +31,24 @@ Throughput Test: 1KB message sent
 <ins>Latency Test</ins>
 
 ![Latency Screenshot](./assets/ttermpro_m5_latency.png)
+
+Conducted a latency test 13 times and calculated the average
+
+|Test  |Latency     |
+|------|------------|
+|1     |131.7187 ms |
+|2     |088.0987  ms |
+|3     |110.0987 ms |
+|4     |156.4066 ms |
+|5     |067.1878  ms|
+|6     |167.0642 ms |
+|7     |156.9209 ms |
+|8     |246.2801 ms |
+|9     |076.8930  ms |
+|10    |224.2873 ms |
+|11    |050.2345  ms |
+|12    |123.4315 ms |
+|13    |099.9821  ms |
 
 <ins>Throughput Test</ins>
 
