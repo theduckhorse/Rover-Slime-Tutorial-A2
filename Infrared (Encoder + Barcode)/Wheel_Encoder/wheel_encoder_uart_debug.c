@@ -38,11 +38,13 @@
 #include <ctype.h>
 
 /* Application Defines  */
-#define TIMER_PERIOD 1024 // timer period to get 1 sec timer
-#define TIMEVAL 60        // used to calculate RPM
+#define TIMER_PERIOD 1024       // timer period to get 1 sec timer
+#define TIMEVAL 60              // used to calculate RPM
+#define TOTALNOTCHES 20         // total notches on wheel
+#define CMtoM 100               // convert cm to m
 #define WHEELCIRCUMFERENCE 20.4 // wheel circumference in cm
-#define WHEELDIAMETER 0.65 // wheel diameter in cm
-#define NOTCHLENGTH 1.02 // 1 notch length in cm
+#define WHEELDIAMETER 0.65      // wheel diameter in cm
+#define NOTCHLENGTH 1.02        // 1 notch length in cm
 
 /* Global Variables */
 volatile uint32_t leftCounter;
@@ -95,47 +97,47 @@ void main(void)
 
 void initWheelEncoderConfig()
 {
-        WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD; // stop watchdog timer
+    WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD; // stop watchdog timer
 
-        // init variables
-        leftCounter = 0;
-        rightCounter = 0;
-        leftRPM = 0;
-        rightRPM = 0;
+    // init variables
+    leftCounter = 0;
+    rightCounter = 0;
+    leftRPM = 0;
+    rightRPM = 0;
 
-        /* Selecting P1.2 and P1.3 in UART mode */
-        GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
+    /* Selecting P1.2 and P1.3 in UART mode */
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
 
-        /* Configuring UART Module */
-        UART_initModule(EUSCI_A0_BASE, &uartConfig);
+    /* Configuring UART Module */
+    UART_initModule(EUSCI_A0_BASE, &uartConfig);
 
-        /* Enable UART module */
-        UART_enableModule(EUSCI_A0_BASE);
+    /* Enable UART module */
+    UART_enableModule(EUSCI_A0_BASE);
 
-        // Configure P2.6, P2.7 as input with pull-up resistor
-        MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P2, GPIO_PIN6 | GPIO_PIN7);
+    // Configure P2.6, P2.7 as input with pull-up resistor
+    MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P2, GPIO_PIN6 | GPIO_PIN7);
 
-        // Clear Interrupt flag for P2.6, P2.7
-        MAP_GPIO_clearInterruptFlag(GPIO_PORT_P2, GPIO_PIN6 | GPIO_PIN7);
-        // Enable Interrupt for P2.6, P2.7
-        MAP_GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN6 | GPIO_PIN7);
-        // Enable Interrupt for port 2
-        MAP_Interrupt_enableInterrupt(INT_PORT2);
+    // Clear Interrupt flag for P2.6, P2.7
+    MAP_GPIO_clearInterruptFlag(GPIO_PORT_P2, GPIO_PIN6 | GPIO_PIN7);
+    // Enable Interrupt for P2.6, P2.7
+    MAP_GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN6 | GPIO_PIN7);
+    // Enable Interrupt for port 2
+    MAP_Interrupt_enableInterrupt(INT_PORT2);
 
-        /* Configuring Timer_A1 for Up Mode */
-        MAP_Timer_A_configureUpMode(TIMER_A1_BASE, &upConfig);
+    /* Configuring Timer_A1 for Up Mode */
+    MAP_Timer_A_configureUpMode(TIMER_A1_BASE, &upConfig);
 
-        /* Enabling interrupts and starting the timer */
-        MAP_Interrupt_enableSleepOnIsrExit();
-        MAP_Interrupt_enableInterrupt(INT_TA1_0);
-        MAP_Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
+    /* Enabling interrupts and starting the timer */
+    MAP_Interrupt_enableSleepOnIsrExit();
+    MAP_Interrupt_enableInterrupt(INT_TA1_0);
+    MAP_Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
 
-        /* Enabling the FPU for floating point operation */
-        MAP_FPU_enableModule();
-        MAP_FPU_enableLazyStacking();
+    /* Enabling the FPU for floating point operation */
+    MAP_FPU_enableModule();
+    MAP_FPU_enableLazyStacking();
 
-        // Enable MASTER interrupts
-        MAP_Interrupt_enableMaster();
+    // Enable MASTER interrupts
+    MAP_Interrupt_enableMaster();
 }
 
 void uPrintf(unsigned char *TxArray)
@@ -177,13 +179,13 @@ void TA1_0_IRQHandler(void)
 {
     // calculate the current speed in m/s using the average of left and right counter x 1 notch length, then convert cm to meters
     // the curSpeed will also be the current distance that the car has traveled in that 1 second
-    curSpeed = (((leftCounter + rightCounter) / 2) * NOTCHLENGTH) / 100;
+    curSpeed = (((leftCounter + rightCounter) / 2) * NOTCHLENGTH) / CMtoM;
     totalDist += curSpeed; // increment total distance traveled
     if (leftCounter > 0)
     {
         // rpm = (freq x TIMEVAL (to get 1 minute depending on timer used))/20 (number of notches)
-        leftRPM = (leftCounter * TIMEVAL) / 20; // calculate left wheel rpm
-        leftCounter = 0;                        // reset left counter
+        leftRPM = (leftCounter * TIMEVAL) / TOTALNOTCHES; // calculate left wheel rpm
+        leftCounter = 0;                                  // reset left counter
     }
     else
     {
@@ -192,8 +194,8 @@ void TA1_0_IRQHandler(void)
 
     if (rightCounter > 0)
     {
-        rightRPM = (rightCounter * TIMEVAL) / 20; // calculate right wheel rpm
-        rightCounter = 0;                         // reset right counter
+        rightRPM = (rightCounter * TIMEVAL) / TOTALNOTCHES; // calculate right wheel rpm
+        rightCounter = 0;                                   // reset right counter
     }
     else
     {
