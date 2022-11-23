@@ -35,6 +35,7 @@
 #define THRESHOLD 1.8     // normalized ADC result threshold
 #define COUNTTHRESHOLD 50 // counter threshold of 50 to filter out random fast movement
 #define LTHRESHOLD 3000   // length counter threshold to signify end of reading
+#define BARCOUNT 5        // count of how many bars in 1 char
 
 /* Declare Functions */
 void uPrintf(unsigned char *TxArray);
@@ -405,16 +406,19 @@ void ADC14_IRQHandler(void)
                 barLowest = 999999;
                 barAvg = 0;
 
+                // if end is a space set space offset
                 if (outIsBar == false)
                 {
                     spaceOffset = 1;
                     barOffset = 0;
                 }
+                // if end is bar set bar offset
                 else
                 {
                     spaceOffset = 1;
                     barOffset = 1;
                 }
+                // get bars highest and bars lowest length to determine thickness
                 for (i = 0 + barOffset; i < barsLength; i++)
                 {
                     if (bars[i] == 0)
@@ -431,6 +435,7 @@ void ADC14_IRQHandler(void)
                         barLowest = bars[i];
                     }
                 }
+                // get spaces highest and spaces lowest length to determine thickness
                 for (i = 0 + spaceOffset; i < spacesLength; i++)
                 {
                     if (spaces[i] == 0)
@@ -447,16 +452,16 @@ void ADC14_IRQHandler(void)
                         spaceLowest = spaces[i];
                     }
                 }
-                memset(decodedOutput, 0, sizeof decodedOutput);
-                int barcodeLength = barAmount / 5; // total number of char in barcode
-                int decodeCounter = 0;              // decode counter
-                unsigned char tmp[1] = {};           // tmp char array to hold decoded character
-                barAvg = (barHighest + barLowest) / 2 - barLowest / 3; // Get the avg of the total counts of black bars
-                spaceAvg = (spaceHighest + spaceLowest) / 2 - spaceLowest / 3; // Get the avg of the total counts of white spaces
-                bars[0 + barOffset] = barLowest; // offsets the 2nd index to lowest
-                bars[1 + barOffset] = barLowest; // offsets the 3rd index to lowest
-                spaces[0 + spaceOffset] = spaceHighest; // offsets the 2nd index to lowest
-                spaces[1 + spaceOffset] = spaceLowest; // offsets the 2nd index to lowest
+                memset(decodedOutput, 0, sizeof decodedOutput);                    // resets decoded output
+                int barcodeLength = barAmount / BARCOUNT;                          // total number of char in barcode
+                int decodeCounter = 0;                                             // decode counter
+                unsigned char tmp[1] = {};                                         // tmp char array to hold decoded character
+                barAvg = (((barHighest + barLowest) / 2) - barLowest) / 3;         // Get the avg of the total counts of black bars
+                spaceAvg = (((spaceHighest + spaceLowest) / 2) - spaceLowest) / 3; // Get the avg of the total counts of white spaces
+                bars[0 + barOffset] = barLowest;                                   // offsets the 2nd index to lowest
+                bars[1 + barOffset] = barLowest;                                   // offsets the 3rd index to lowest
+                spaces[0 + spaceOffset] = spaceHighest;                            // offsets the 2nd index to lowest
+                spaces[1 + spaceOffset] = spaceLowest;                             // offsets the 2nd index to lowest
                 for (i = 0; i < barcodeLength; i++)
                 {
                     memset(binaryStr, 0, sizeof binaryStr); // resets binarystring array after every character decoded
@@ -532,8 +537,8 @@ void ADC14_IRQHandler(void)
                     {
                         binaryStr[8] = '0';
                     }
-                    decodeCounter += 5;          // adds five to decodeCounter for next character
-                    tmp[0] = decodeCode39();     // decodes character
+                    decodeCounter += BARCOUNT;  // adds five to decodeCounter for next character
+                    tmp[0] = decodeCode39();    // decodes character
                     strcat(decodedOutput, tmp); // concat decoded character to output
                 }
                 if (barcodeLength > 0)
