@@ -504,6 +504,7 @@ void TA1_0_IRQHandler(void)
 
     // Set the target PWM/NPM (Notches Per Minute) to hit (WIP need to determine the correct value)
     setPoint = pwmConfig.dutyCycle * 0.75; //throttle by 25% ???
+    setPoint = pwmConfig.dutyCycle
 
     //PID Left Motor
     //Calculate Error (Proportional)
@@ -515,17 +516,18 @@ void TA1_0_IRQHandler(void)
     //Calculate PID Output
     outputLeft = (kp * errorLeft) + (ki * integralLeft) + (kd * derivativeLeft);
     //Limit Output (WIP, need to change)
-    if (outputLeft > 255)
-        outputLeft = 255;
-    if (outputLeft < -255)
-        outputLeft = -255;
+    if (outputLeft > 6000)
+        outputLeft = 6000;
+    if (outputLeft < 0)
+        outputLeft = 0;
     //Save Error to Last Error
     lasterrorLeft = errorLeft;
     //If output is positive, increase pwm. otherwise decrease pwm (WIP need to check if correct way)
-    if (outputLeft > 0)
-        pwmConfig.dutyCycle += outputLeft;
-    else if (outputLeft < 0)
-        pwmConfig.dutyCycle -= outputLeft;
+    // if (outputLeft > 0)
+    //     pwmConfig.dutyCycle += outputLeft;
+    // else if (outputLeft < 0)
+    //     pwmConfig.dutyCycle -= outputLeft;
+        pwmConfig.dutyCycle = outputLeft;
 
     //PID Right Motor
     //Calculate Error (Proportional)
@@ -537,17 +539,18 @@ void TA1_0_IRQHandler(void)
     //Calculate PID Output
     outputRight = (kp * errorRight) + (ki * integralRight) + (kd * derivativeRight);
     //Limit Output (WIP, need to change)
-    if (outputRight > 255)
-        outputRight = 255;
-    if (outputRight < -255)
-        outputRight = -255;
+    if (outputRight > 6000)
+        outputRight = 6000;
+    if (outputRight < 0)
+        outputRight = 0;
     //Save Error to Last Error
     lasterrorRight = errorRight;
     //If output is positive, increase pwm. otherwise decrease pwm (WIP need to check if correct way)
-    if (outputRight > 0)
-        pwmConfig.dutyCycle += outputRight;
-    else if (outputRight < 0)
-        pwmConfig.dutyCycle -= outputRight;
+    // if (outputRight > 0)
+    //     pwmConfig.dutyCycle += outputRight;
+    // else if (outputRight < 0)
+    //     pwmConfig.dutyCycle -= outputRight;
+    pwmConfig.dutyCycle = outputRight;
 
     if(debug == 1){
         debug = 0;
