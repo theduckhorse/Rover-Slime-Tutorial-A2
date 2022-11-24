@@ -10,7 +10,7 @@ def lcd_print(data):
 
 
 def callback(topic_data):
-  uart.write(topic_data)
+  pass
 
 lcd_print("hello world")
 wifiCfg.screenShow()
