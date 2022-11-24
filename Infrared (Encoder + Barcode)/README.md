@@ -15,5 +15,12 @@ Where NOTCHLENGTH is 1.02cm rounded up, CMtoM is 100 to convert the speed from c
 The total distance is an aggregate of from the Current Speed every 1 second. <br />
 Using this method will allow us to calculate the speed and distance the wheel traveled without the need for extra calculations using other forumlas which increases the load on the MSP.
 
+Comparison betweeen Actual Distance and Measured Distance
+![Distance](./assets/Encoder_Measure_Distance_Performance_Chart.jpg)
+
+
 ## Barcode Reader
 Our barcode reader is able to read the 3 different lengths of barcode: Big, Mediam, Small.
+
+Comparison betweeen Barcode Length and Measured Barcode Accuracy
+![Distance](./assets/IR_Sensor_Accuracy_Performance_Chart.jpg)
