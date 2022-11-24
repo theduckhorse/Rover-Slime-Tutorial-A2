@@ -38,7 +38,7 @@ while True:
     # print(clientIP)
 
     # sleep
-    time.sleep()
+    time.sleep(1)
 
     # Sending a reply to client
     udpsocket.sendto(bytesToSend, address)
