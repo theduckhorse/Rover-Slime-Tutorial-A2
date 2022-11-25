@@ -50,11 +50,11 @@ main.obj: /Users/aviendre/Downloads/msp432_driverlib_3_21_00_05/driverlib/MSP432
 main.obj: /Users/aviendre/Downloads/msp432_driverlib_3_21_00_05/driverlib/MSP432P4xx/timer_a.h
 main.obj: /Users/aviendre/Downloads/msp432_driverlib_3_21_00_05/driverlib/MSP432P4xx/uart.h
 main.obj: /Users/aviendre/Downloads/msp432_driverlib_3_21_00_05/driverlib/MSP432P4xx/wdt_a.h
-main.obj: /Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/driverlib_empty_project/comms/ESP8266.h
+main.obj: /Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/ESP8266_Wifi/comms/ESP8266.h
 main.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/string.h
 main.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/xlocale/_string.h
 main.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdlib.h
-main.obj: /Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/driverlib_empty_project/comms/UART_Driver.h
+main.obj: /Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/ESP8266_Wifi/comms/UART_Driver.h
 main.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdio.h
 main.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h
 
@@ -158,7 +158,7 @@ main.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/incl
 
 /Users/aviendre/Downloads/msp432_driverlib_3_21_00_05/driverlib/MSP432P4xx/wdt_a.h:
 
-/Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/driverlib_empty_project/comms/ESP8266.h:
+/Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/ESP8266_Wifi/comms/ESP8266.h:
 
 /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/string.h:
 
@@ -166,7 +166,7 @@ main.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/incl
 
 /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdlib.h:
 
-/Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/driverlib_empty_project/comms/UART_Driver.h:
+/Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/ESP8266_Wifi/comms/UART_Driver.h:
 
 /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdio.h:
 

@@ -9,7 +9,7 @@ comms/ESP8266.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7
 comms/ESP8266.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/xlocale/_string.h
 comms/ESP8266.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdlib.h
 comms/ESP8266.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h
-comms/ESP8266.obj: /Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/driverlib_empty_project/comms/UART_Driver.h
+comms/ESP8266.obj: /Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/ESP8266_Wifi/comms/UART_Driver.h
 comms/ESP8266.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdio.h
 comms/ESP8266.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h
 comms/ESP8266.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/sys/_types.h
@@ -76,7 +76,7 @@ comms/ESP8266.obj: /Users/aviendre/Downloads/msp432_driverlib_3_21_00_05/driverl
 
 /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h:
 
-/Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/driverlib_empty_project/comms/UART_Driver.h:
+/Users/aviendre/Desktop/School/CSC2003\ -\ Embedded\ Systems\ and\ Sensor/ESP8266_Wifi/comms/UART_Driver.h:
 
 /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdio.h:
 

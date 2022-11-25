@@ -100,7 +100,7 @@ bool ESP8266_AvailableAPs(void)
 
 bool ESP8266_ChangeMode1(void)
 {
-    UART_Printf(EUSCI_A2_BASE, "AT+CWMODE=1\r\n");
+    UART_Printf(EUSCI_A2_BASE, "AT+CWMODE=3\r\n");
     __delay_cycles(48000000);
     if(!ESP8266_WaitForAnswer(ESP8266_RECEIVE_TRIES))
     {
@@ -224,7 +224,7 @@ bool ESP8266_SendData(char ID, char *Data, uint32_t DataSize)
 {
     char size[5];
 
-    ltoa(size, DataSize,10);
+    ltoa(DataSize, size, 10);
     UART_Printf(EUSCI_A2_BASE, "%s=%s\r\n", AT_CIPSEND, size); //"%s=%c,%s\r\n", AT_CIPSEND, ID, size);
 
     __delay_cycles(24000000);

@@ -2,15 +2,24 @@
 #include <comms/ESP8266.h>
 #include <comms/UART_Driver.h>
 
+//AT Commands http://fab.cba.mit.edu/classes/865.15/people/dan.chen/esp8266/
 //Change this to the access point of your choice
-#define SSID "ssid"
-#define PASSWORD "password"
+#define SSID "aviendre"
+#define PASSWORD "nurrawdha"
 
+void connectHTTP();
+void sendRequest();
+void multipleConnections();
 void changeState();
 void listAP();
 void connectToWifi();
 void listIP();
 void initWifi();
+
+char http_Webpage[] = "httpbin.org";
+char port[] = "80";
+char http_Request[] = "GET /ip HTTP/1.0\r\n\r\n";
+uint32_t http_Request_Size = sizeof(http_Request) - 1;
 
 /* Calculation of config file is through https://software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSP430BaudRateConverter/index.html
  * System clock is set to 24,000,000 Hz and baud rate is 1,152,200 bps */
@@ -46,9 +55,48 @@ void main()
 
     initWifi();
     Interrupt_enableMaster();
+    connectHTTP();
+    //multipleConnections();
+    sendRequest();
+
     while(1){
-        PCM_gotoLPM3InterruptSafe();
     }
+}
+
+void connectHTTP(){
+    if(!ESP8266_EstablishConnection('0', TCP, http_Webpage, port))
+        {
+            UART_Printf(EUSCI_A0_BASE, "Failed to connect\n\r");
+            while(1);
+        }
+    UART_Printf(EUSCI_A0_BASE, "Connected to HTTP\n\r");
+
+    char *ESP8266_Data = ESP8266_GetBuffer();
+    UART_Printf(EUSCI_A0_BASE, ESP8266_Data);
+}
+
+void sendRequest(){
+    if(!ESP8266_SendData('0', http_Request, http_Request_Size))
+        {
+            char *ESP8266_Data = ESP8266_GetBuffer();
+            UART_Printf(EUSCI_A0_BASE, ESP8266_Data);
+
+            UART_Printf(EUSCI_A0_BASE, "Failed to send\n\r");
+            while(1);
+        }
+    char *ESP8266_Data = ESP8266_GetBuffer();
+    UART_Printf(EUSCI_A0_BASE, ESP8266_Data);
+}
+
+void multipleConnections(){
+    /*Enable multiple connections, up to 4 according to the internet*/
+        if(!ESP8266_EnableMultipleConnections(true))
+        {
+            UART_Printf(EUSCI_A0_BASE, "Failed to set multiple connections\r\n");
+            multipleConnections();
+        }
+
+        UART_Printf(EUSCI_A0_BASE, "Multiple connections enabled\r\n\r\n");
 }
 
 /*Sets the ESP8266 Wifi mode to be a station*/
@@ -122,7 +170,7 @@ void initWifi(){
     UART_Printf(EUSCI_A0_BASE, "ESP8266 Start\r\n");
 
     changeState();
-    listAP();
+    //listAP();
     connectToWifi();
     listIP();
 }
