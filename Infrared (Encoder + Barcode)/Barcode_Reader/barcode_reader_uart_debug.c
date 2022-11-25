@@ -33,8 +33,8 @@
 
 /* Application Defines */
 #define THRESHOLD 1.8     // normalized ADC result threshold
-#define COUNTTHRESHOLD 50 // counter threshold of 50 to filter out random fast movement
-#define LTHRESHOLD 3000   // length counter threshold to signify end of reading
+#define COUNTTHRESHOLD 10 // counter threshold of 50 to filter out random fast movement
+#define LTHRESHOLD 500    // length counter threshold to signify end of reading
 #define BARCOUNT 5        // count of how many bars in 1 char
 
 /* Declare Functions */
@@ -65,18 +65,19 @@ bool isBar = true;
 bool outIsBar = true;
 unsigned char *decodedOutput[20];
 char binaryStr[9];
-int bars[200];
-int spaces[200];
+int bars[20];
+int spaces[20];
 int barsLength = sizeof(bars) / sizeof(bars[0]);
 int spacesLength = sizeof(spaces) / sizeof(spaces[0]);
+char str[80];
 
-// UART Config for 115200 baud rate at 48mhz
+// UART Config for 115200 baud rate at 3mhz
 const eUSCI_UART_Config uartConfig =
     {
         EUSCI_A_UART_CLOCKSOURCE_SMCLK,                // SMCLK Clock Source
-        26,                                            // BRDIV = 26
-        0,                                             // UCxBRF = 0
-        111,                                           // UCxBRS = 111
+        1,                                             // BRDIV = 1
+        10,                                            // UCxBRF = 10
+        0,                                             // UCxBRS = 0
         EUSCI_A_UART_ODD_PARITY,                       // ODD Parity
         EUSCI_A_UART_LSB_FIRST,                        // LSB First
         EUSCI_A_UART_ONE_STOP_BIT,                     // One stop bit
@@ -305,16 +306,16 @@ void initBarcodeConfig()
     MAP_FlashCtl_setWaitState(FLASH_BANK1, 2);
 
     /* Setting DCO to 48MHz */
-    MAP_PCM_setPowerState(PCM_AM_LDO_VCORE1);
-    MAP_CS_setDCOCenteredFrequency(CS_DCO_FREQUENCY_48);
+    // MAP_PCM_setPowerState(PCM_AM_LDO_VCORE1);
+    // MAP_CS_setDCOCenteredFrequency(CS_DCO_FREQUENCY_48);
 
     /* Enabling the FPU for floating point operation */
     MAP_FPU_enableModule();
     MAP_FPU_enableLazyStacking();
 
-    /* Initializing ADC (MCLK/1/4) */
+    /* Initializing ADC (MCLK/1/1) = 3MHZ */
     MAP_ADC14_enableModule();
-    MAP_ADC14_initModule(ADC_CLOCKSOURCE_MCLK, ADC_PREDIVIDER_1, ADC_DIVIDER_4, 0);
+    MAP_ADC14_initModule(ADC_CLOCKSOURCE_MCLK, ADC_PREDIVIDER_1, ADC_DIVIDER_1, 0);
 
     /* Configuring GPIOs (5.5 A0) */
     MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P5, GPIO_PIN5, GPIO_TERTIARY_MODULE_FUNCTION);
@@ -452,16 +453,17 @@ void ADC14_IRQHandler(void)
                         spaceLowest = spaces[i];
                     }
                 }
-                memset(decodedOutput, 0, sizeof decodedOutput);                    // resets decoded output
-                int barcodeLength = barAmount / BARCOUNT;                          // total number of char in barcode
-                int decodeCounter = 0;                                             // decode counter
-                unsigned char tmp[1] = {};                                         // tmp char array to hold decoded character
-                barAvg = (((barHighest + barLowest) / 2) - barLowest) / 3;         // Get the avg of the total counts of black bars
-                spaceAvg = (((spaceHighest + spaceLowest) / 2) - spaceLowest) / 3; // Get the avg of the total counts of white spaces
-                bars[0 + barOffset] = barLowest;                                   // offsets the 2nd index to lowest
-                bars[1 + barOffset] = barLowest;                                   // offsets the 3rd index to lowest
-                spaces[0 + spaceOffset] = spaceHighest;                            // offsets the 2nd index to lowest
-                spaces[1 + spaceOffset] = spaceLowest;                             // offsets the 2nd index to lowest
+
+                memset(decodedOutput, 0, sizeof decodedOutput);                // resets decoded output
+                int barcodeLength = barAmount / BARCOUNT;                      // total number of char in barcode
+                int decodeCounter = 0;                                         // decode counter
+                unsigned char tmp[1] = {};                                     // tmp char array to hold decoded character
+                barAvg = (barHighest + barLowest) / 2 - barLowest / 3;         // Get the avg of the total counts of black bars
+                spaceAvg = (spaceHighest + spaceLowest) / 2 - spaceLowest / 3; // Get the avg of the total counts of white spaces
+                bars[0 + barOffset] = barLowest;                               // offsets the 2nd index to lowest
+                bars[1 + barOffset] = barLowest;                               // offsets the 3rd index to lowest
+                spaces[0 + spaceOffset] = spaceHighest;                        // offsets the 2nd index to lowest
+                spaces[1 + spaceOffset] = spaceLowest;                         // offsets the 2nd index to lowest
                 for (i = 0; i < barcodeLength; i++)
                 {
                     memset(binaryStr, 0, sizeof binaryStr); // resets binarystring array after every character decoded
