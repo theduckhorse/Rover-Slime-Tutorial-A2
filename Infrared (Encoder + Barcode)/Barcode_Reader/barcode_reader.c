@@ -256,15 +256,15 @@ unsigned char decodeCode39()
     }
 }
 
-int main(void)
-{
-    initBarcodeConfig();
+// int main(void)
+// {
+//     initBarcodeConfig();
 
-    while (1)
-    {
-        MAP_PCM_gotoLPM0();
-    }
-}
+//     while (1)
+//     {
+//         MAP_PCM_gotoLPM0();
+//     }
+// }
 
 // Config for GPIO and other setup
 void initBarcodeConfig()
