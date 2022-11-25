@@ -53,7 +53,6 @@ volatile uint32_t leftRPM;
 volatile uint32_t rightRPM;
 volatile float curSpeed;
 volatile float totalDist;
-volatile char str[80];
 
 /* Declare Functions */
 void uPrintf(unsigned char *TxArray);
