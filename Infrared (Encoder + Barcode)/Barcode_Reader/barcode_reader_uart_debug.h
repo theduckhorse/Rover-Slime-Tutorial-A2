@@ -1,5 +1,5 @@
 /*
- * barcode_reader.h
+ * barcode_reader_uart_debug.h
  *
  *  Created on: 25 Nov 2022
  *      Author: Yee Kit
