@@ -42,10 +42,6 @@ volatile float curSpeed;
 volatile float totalDist;
 volatile char str[80];
 
-/* Declare Functions */
-void uPrintf(unsigned char *TxArray);
-void initWheelEncoderConfig();
-
 /* Timer_A UpMode Configuration Parameter for 1 second timer */
 const Timer_A_UpModeConfig upConfig =
     {

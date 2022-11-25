@@ -41,9 +41,6 @@ volatile uint32_t rightRPM;
 volatile float curSpeed;
 volatile float totalDist;
 
-/* Declare Functions */
-void initWheelEncoderConfig();
-
 /* Timer_A UpMode Configuration Parameter for 1 second timer */
 const Timer_A_UpModeConfig upConfig =
     {
