@@ -10,11 +10,13 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
-"./main.obj" \
+"./barcode_reader.obj" \
+"./gpio_toggle_output.obj" \
 "./startup_msp432p401r_ccs.obj" \
 "./system_msp432p401r.obj" \
-"../driverlib_empty_project_ccs.cmd" \
-"D:/School/CSC2003 Embedded Systems/msp432_driverlib_3_21_00_05/driverlib/MSP432P4xx/ccs/msp432p4xx_driverlib.lib" \
+"./wheel_encoder.obj" \
+"../gpio_toggle_output_ccs.cmd" \
+"C:/msp432_driverlib_3_21_00_05/driverlib/MSP432P4xx/ccs/msp432p4xx_driverlib.lib" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
 
@@ -123,35 +125,35 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-Assignment_UART_Test.out \
+gpio_toggle_output.out \
 
 EXE_OUTPUTS__QUOTED += \
-"Assignment_UART_Test.out" \
+"gpio_toggle_output.out" \
 
 BIN_OUTPUTS += \
-Assignment_UART_Test.bin \
+gpio_toggle_output.bin \
 
 BIN_OUTPUTS__QUOTED += \
-"Assignment_UART_Test.bin" \
+"gpio_toggle_output.bin" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "Assignment_UART_Test.out"
+	@$(MAKE) --no-print-directory -Onone "gpio_toggle_output.out"
 
 # Tool invocations
-Assignment_UART_Test.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
+gpio_toggle_output.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=TARGET_IS_MSP432P4XX --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number -z -m"Assignment_UART_Test.map" --stack_size=512 -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/lib" -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Assignment_UART_Test_linkInfo.xml" --rom_model -o "Assignment_UART_Test.out" $(ORDERED_OBJS)
+	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=TARGET_IS_MSP432P4XX --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number -z -m"gpio_toggle_output.map" --stack_size=512 -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/lib" -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="gpio_toggle_output_linkInfo.xml" --rom_model -o "gpio_toggle_output.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
-Assignment_UART_Test.bin: $(EXE_OUTPUTS)
+gpio_toggle_output.bin: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armhex"  -o "Assignment_UART_Test.bin" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armhex"  -o "gpio_toggle_output.bin" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -159,13 +161,13 @@ Assignment_UART_Test.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
-	-$(RM) "main.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
+	-$(RM) "barcode_reader.obj" "gpio_toggle_output.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" "wheel_encoder.obj" 
+	-$(RM) "barcode_reader.d" "gpio_toggle_output.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" "wheel_encoder.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
-	-C:/ti/ccs930/ccs/utils/tiobj2bin/tiobj2bin Assignment_UART_Test.out Assignment_UART_Test.bin C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armofd C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armhex C:/ti/ccs930/ccs/utils/tiobj2bin/mkhex4bin
+	-C:/ti/ccs930/ccs/utils/tiobj2bin/tiobj2bin gpio_toggle_output.out gpio_toggle_output.bin C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armofd C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armhex C:/ti/ccs930/ccs/utils/tiobj2bin/mkhex4bin
 	-@echo ' '
 
 .PHONY: all clean dependents
