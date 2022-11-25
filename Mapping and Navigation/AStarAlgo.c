@@ -6,9 +6,17 @@
 #include <iso646.h>
 /* add -lm to command line to compile with this header */
 #include <math.h>
+// #include "mappingPart3.c"
 
 #define map_size_rows 9
 #define map_size_cols 11
+
+void printPath(int p_len, int **pathCoord);
+int follow_The_Path(int **path, int total_Cost);
+void turnLeft();
+void turnRight();
+void uTurn();
+void moveForward();
 
 char map[map_size_rows][map_size_cols] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -68,7 +76,7 @@ int main() {
     struct stop * stops = NULL;
     int r_len = 0;
     struct route * routes = NULL;
-
+    int **pathCoord;
     for (i = 1; i < map_size_rows - 1; i++) {
         for (j = 1; j < map_size_cols - 1; j++) {
             if (!map[i][j]) {
@@ -236,24 +244,110 @@ int main() {
         }
         putchar('\n');
     }
+    
+    
+    //Memory Allocation for 2D path array
+    pathCoord = malloc(sizeof(int*) * p_len);
+            if(pathCoord == NULL){
+                printf("whut");
+                exit(1);
+            }
+    
+    for (i = 0; i < p_len; ++i) {
+        pathCoord[i] = malloc(sizeof(int) * 2);
+        if(pathCoord[i] == NULL){
+            printf("whut2");
+            exit(1);
+        }
+
+    }
 
     if (not found) {
         puts("IMPOSSIBLE");
     } else {
         printf("path cost is %d:\n", p_len);
-        for (i = p_len - 1; i >= 0; i--) {
+        for (j = 0, i = p_len - 1; j<p_len,i >= 0; j++, i--) {
             printf("(%1.0f, %1.0f)\n", stops[path[i]].col, stops[path[i]].row);
+            pathCoord[j][0] = stops[path[i]].col;
+            pathCoord[j][1] = stops[path[i]].row;
         }
     }
 
+
+
+    printPath(p_len, pathCoord);
+
+    printf("\n[*]Following is the car movement to the end point: \n\n");
+    follow_The_Path(pathCoord, p_len);
+
+
+
+
     for (i = 0; i < s_len; ++i) {
         free(stops[i].n);
+        free(pathCoord[i]);
     }
     free(stops);
     free(routes);
     free(path);
     free(open);
     free(closed);
+    free(pathCoord);
 
     return 0;
+}
+//int pathCoord[15][2];
+int follow_The_Path(int **path, int total_Cost){
+    int i;
+    for(i = 0; i < total_Cost -1 ; i++){ // total_cost - 1 because last node don't have to move anymore.
+        if(i == 0){
+            moveForward();
+        }else if((path[i][1] == path[i-1][1] and path[i][1] < path[i+1][1] and path[i][0] < path[i-1][0]) or // Horizontal Left <-
+        (path[i][1] == path[i-1][1] and path[i][1] > path[i+1][1] and path[i][0] > path[i-1][0]) or  // Horizontal Left ->
+        (path[i][0] == path[i-1][0] and path[i][0] > path[i+1][0] and path[i][1] < path[i-1][1]) or // Vertical Left ^ 
+        (path[i][0] == path[i-1][0] and path[i][0] < path[i+1][0] and path[i][1] > path[i-1][1])) { // Vertical Left _ 
+
+            turnLeft();
+            moveForward();
+
+        }else if((path[i][1] == path[i-1][1] and path[i][1]>path[i+1][1] and path[i][0] < path[i-1][0]) or  // Horizontal Right <-
+        (path[i][1] == path[i-1][1] and path[i][1] < path[i+1][1] and path[i][0] > path[i-1][0]) or // Horizontal Right ->
+        (path[i][0] == path[i-1][0] and path[i][0] < path[i+1][0] and path[i][1] < path[i-1][1]) or // Vertial Right ^
+        (path[i][0] == path[i-1][0] and path[i][0] > path[i+1][0] and path[i][1] > path[i-1][1])) { // Vertial Right _
+
+            turnRight();
+            moveForward();
+
+        }else{
+            moveForward();
+        }
+    }
+}
+
+
+
+
+void turnLeft(){
+    printf("Turning Left 90 Degrees!\n");
+}
+
+void turnRight(){  
+    printf("Turning right 90 Degrees!\n");
+}
+
+void uTurn(){
+    turnLeft();
+    turnLeft();
+}
+
+void moveForward(){
+    //Car moves forward by MOVE_DISTANCE [13.5cm]
+    printf("Moving Forward!\n");
+}
+
+void printPath(int p_len, int **pathCoord){
+        printf("\n**********\n");
+    for (int i = 0; i < p_len; i++) {
+            printf("(%d, %d)\n", pathCoord[i][0], pathCoord[i][1] );
+        }
 }

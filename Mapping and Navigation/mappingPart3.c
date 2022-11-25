@@ -19,25 +19,25 @@
 // ████████████
 // path cost is 16:
 
-//Initialise test path
-int path[][COORDINATES] = {
-    {8, 3}, //move forward
-    {7, 3}, //move forward
-    {6, 3}, //move forward
-    {5, 3}, // turn right, move forward
-    {5, 2}, //move forward
-    {5, 1}, // turn left, move forward
-    {4, 1}, //move forward
-    {3, 1}, //move forward
-    {2, 1}, //move forward
-    {1, 1}, //  turn left, move forward
-    {1, 2}, //move forward
-    {1, 3}, //move forward
-    {1, 4}, //move forward
-    {1, 5}, //move forward
-    {1, 6}, //move forward
-    {1, 7}
-};
+// //Initialise test path
+// int path[][COORDINATES] = {
+//     {8, 3}, //move forward
+//     {7, 3}, //move forward
+//     {6, 3}, //move forward
+//     {5, 3}, // turn right, move forward
+//     {5, 2}, //move forward
+//     {5, 1}, // turn left, move forward
+//     {4, 1}, //move forward
+//     {3, 1}, //move forward
+//     {2, 1}, //move forward
+//     {1, 1}, //  turn left, move forward
+//     {1, 2}, //move forward
+//     {1, 3}, //move forward
+//     {1, 4}, //move forward
+//     {1, 5}, //move forward
+//     {1, 6}, //move forward
+//     {1, 7}
+// };
 
 // MAZE TEST 2
 // ███████████
@@ -52,23 +52,23 @@ int path[][COORDINATES] = {
 // path cost is 15:
 
 
-// int path[][COORDINATES] = {
-//     {1, 7},
-//     {1, 6},
-//     {1, 5},
-//     {1, 4},
-//     {1, 3},
-//     {1, 2},
-//     {1, 1},
-//     {2, 1},
-//     {3, 1},
-//     {4, 1},
-//     {5, 1},
-//     {5, 2},
-//     {5, 3},
-//     {6, 3},
-//     {7, 3}
-// };
+int path[][COORDINATES] = {
+    {1, 7},
+    {1, 6},
+    {1, 5},
+    {1, 4},
+    {1, 3},
+    {1, 2},
+    {1, 1},
+    {2, 1},
+    {3, 1},
+    {4, 1},
+    {5, 1},
+    {5, 2},
+    {5, 3},
+    {6, 3},
+    {7, 3}
+};
 
 int total_Cost = 16; //p_len
 
@@ -177,7 +177,7 @@ void moveForward(){
     // Therefore, when you go from UP to BOTTOM, then head LEFT-WARDS, it results in a RIGHT TURN. 
 
 
-int follow_The_Path(int path[][COORDINATES], int total_Cost){
+int follow_The_Path(int path[][2], int total_Cost){
     int i, j;
     for(i = 0; i < total_Cost -1 ; i++){ // total_cost - 1 because last node don't have to move anymore.
         if((path[i][1] == path[i-1][1] and path[i][1]<path[i+1][1] and path[i][0] < path[i-1][0]) or // Horizontal Left <-
