@@ -36,8 +36,6 @@
 /* Init Global Variables */
 volatile uint32_t leftCounter;
 volatile uint32_t rightCounter;
-volatile uint32_t leftRPM;
-volatile uint32_t rightRPM;
 volatile float curSpeed;
 volatile float totalDist;
 
@@ -71,8 +69,6 @@ void initWheelEncoderConfig()
     // init variables
     leftCounter = 0;
     rightCounter = 0;
-    leftRPM = 0;
-    rightRPM = 0;
 
     // Configure P2.6, P2.7 as input with pull-up resistor
     MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P2, GPIO_PIN6 | GPIO_PIN7);
@@ -135,28 +131,7 @@ void TA1_0_IRQHandler(void)
     }
     else
     {
-        curSpeed = 0.0;
-    }
-    // calculate left & right RPM separately from speed
-    if (leftCounter > 0)
-    {
-        // rpm = (freq x TIMEVAL (to get 1 minute depending on timer used))/20 (number of notches)
-        leftRPM = (leftCounter * TIMEVAL) / TOTALNOTCHES; // calculate left wheel rpm
-        leftCounter = 0;                                  // reset left counter
-    }
-    else
-    {
-        leftRPM = 0; // if leftCounter = 0, leftRPM = 0, no calculation of rpm if car not moving
-    }
-
-    if (rightCounter > 0)
-    {
-        rightRPM = (rightCounter * TIMEVAL) / TOTALNOTCHES; // calculate right wheel rpm
-        rightCounter = 0;                                   // reset right counter
-    }
-    else
-    {
-        rightRPM = 0; // if rightCounter = 0, rightRPM = 0, no calculation of rpm if car not moving
+        curSpeed = 0.0f;
     }
     MAP_Timer_A_clearCaptureCompareInterrupt(TIMER_A1_BASE,
                                              TIMER_A_CAPTURECOMPARE_REGISTER_0);

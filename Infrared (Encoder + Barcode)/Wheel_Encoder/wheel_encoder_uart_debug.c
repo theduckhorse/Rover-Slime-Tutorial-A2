@@ -36,8 +36,6 @@
 /* Init Global Variables */
 volatile uint32_t leftCounter;
 volatile uint32_t rightCounter;
-volatile uint32_t leftRPM;
-volatile uint32_t rightRPM;
 volatile float curSpeed;
 volatile float totalDist;
 volatile char str[80];
@@ -85,8 +83,6 @@ void initWheelEncoderConfig()
     // init variables
     leftCounter = 0;
     rightCounter = 0;
-    leftRPM = 0;
-    rightRPM = 0;
 
     /* Selecting P1.2 and P1.3 in UART mode */
     GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
@@ -168,35 +164,10 @@ void TA1_0_IRQHandler(void)
     }
     else
     {
-        curSpeed = 0.0;
-    }
-    // calculate left & right RPM separately from speed
-    if (leftCounter > 0)
-    {
-        // rpm = (freq x TIMEVAL (to get 1 minute depending on timer used))/20 (number of notches)
-        leftRPM = (leftCounter * TIMEVAL) / TOTALNOTCHES; // calculate left wheel rpm
-        leftCounter = 0;                                  // reset left counter
-    }
-    else
-    {
-        leftRPM = 0; // if leftCounter = 0, leftRPM = 0, no calculation of rpm if car not moving
+        curSpeed = 0.0f;
     }
 
-    if (rightCounter > 0)
-    {
-        rightRPM = (rightCounter * TIMEVAL) / TOTALNOTCHES; // calculate right wheel rpm
-        rightCounter = 0;                                   // reset right counter
-    }
-    else
-    {
-        rightRPM = 0; // if rightCounter = 0, rightRPM = 0, no calculation of rpm if car not moving
-    }
-
-    sprintf(str, "Left Wheel RPM: %d\n\r", leftRPM);
-    uPrintf(str);
-    sprintf(str, "Right Wheel RPM: %d\n\r", rightRPM);
-    uPrintf(str);
-    sprintf(str, "Avg Speed: %f m/s\n\r", curSpeed);
+    sprintf(str, "Current Speed: %f m/s\n\r", curSpeed);
     uPrintf(str);
     sprintf(str, "Total Distance: %f m\n\r", totalDist);
     uPrintf(str);
