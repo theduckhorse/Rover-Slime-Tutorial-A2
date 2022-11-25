@@ -157,8 +157,16 @@ void TA1_0_IRQHandler(void)
 {
     // calculate the current speed in m/s using the average of left and right counter x 1 notch length, then convert cm to meters
     // the curSpeed will also be the current distance that the car has traveled in that 1 second
-    curSpeed = (((leftCounter + rightCounter) / 2) * NOTCHLENGTH) / CMtoM;
-    totalDist += curSpeed; // increment total distance traveled
+    if (leftCounter > 0 && rightCounter > 0)
+    {
+        curSpeed = (((leftCounter + rightCounter) / 2) * NOTCHLENGTH) / 100;
+        totalDist += curSpeed; // increment total distance traveled
+    }
+    else
+    {
+        curSpeed = 0.0;
+    }
+    // calculate left & right RPM separately from speed
     if (leftCounter > 0)
     {
         // rpm = (freq x TIMEVAL (to get 1 minute depending on timer used))/20 (number of notches)
