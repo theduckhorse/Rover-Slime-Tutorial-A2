@@ -17,8 +17,8 @@
 
 /* Application Defines */
 #define THRESHOLD 1.8     // normalized ADC result threshold
-#define COUNTTHRESHOLD 50 // counter threshold of 50 to filter out random fast movement
-#define LTHRESHOLD 3000   // length counter threshold to signify end of reading
+#define COUNTTHRESHOLD 10 // counter threshold of 50 to filter out random fast movement
+#define LTHRESHOLD 500   // length counter threshold to signify end of reading
 #define BARCOUNT 5        // count of how many bars in 1 char
 
 /* Declare Functions */
@@ -31,29 +31,29 @@ static volatile uint16_t curADCResult;
 static volatile float normalizedADCRes;
 
 /* Global/App Variables */
-int counter = 0;
-int spacesIndex = 0;
-int barsIndex = 0;
-int spaceAmount = 0;
-int spaceHighest = 0;
-int spaceLowest = 999999;
-int spaceAvg = 0;
-int barAmount = 0;
-int barHighest = 0;
-int barLowest = 999999;
-int barAvg = 0;
-int i = 0;
-int spaceOffset = 0;
-int barOffset = 0;
-bool isBar = true;
-bool outIsBar = true;
-unsigned char *decodedOutput[20];
-char binaryStr[9];
-int bars[50];
-int spaces[50];
-int barsLength = sizeof(bars) / sizeof(bars[0]);
-int spacesLength = sizeof(spaces) / sizeof(spaces[0]);
-char str[80];
+extern int counter;
+extern int spacesIndex;
+extern int barsIndex;
+extern int spaceAmount;
+extern int spaceHighest;
+extern int spaceLowest;
+extern int spaceAvg;
+extern int barAmount;
+extern int barHighest;
+extern int barLowest;
+extern int barAvg;
+extern int i;
+extern int spaceOffset;
+extern int barOffset;
+extern bool isBar;
+extern bool outIsBar;
+extern unsigned char *decodedOutput[20];
+extern char binaryStr[9];
+extern int bars[50];
+extern int spaces[50];
+extern int barsLength;
+extern int spacesLength;
+extern char str[80];
 
 
 #endif /* BARCODE_READER_UART_DEBUG_H_ */

@@ -27,6 +27,30 @@
 /* Header Includes */
 #include <barcode_reader.h>
 
+/* Global/App Variables */
+int counter = 0;
+int spacesIndex = 0;
+int barsIndex = 0;
+int spaceAmount = 0;
+int spaceHighest = 0;
+int spaceLowest = 999999;
+int spaceAvg = 0;
+int barAmount = 0;
+int barHighest = 0;
+int barLowest = 999999;
+int barAvg = 0;
+int i = 0;
+int spaceOffset = 0;
+int barOffset = 0;
+bool isBar = true;
+bool outIsBar = true;
+unsigned char *decodedOutput[20];
+char binaryStr[9];
+int bars[50];
+int spaces[50];
+int barsLength = sizeof(bars) / sizeof(bars[0]);
+int spacesLength = sizeof(spaces) / sizeof(spaces[0]);
+
 // Compares binary string to match character mapping table of Code39 Barcode
 // Refer to mappings from binary to character based on bars and spaces:
 // https://www.cristallight.com/ibarcoder/help/barcodes/c39.html
