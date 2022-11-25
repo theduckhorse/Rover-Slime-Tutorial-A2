@@ -161,6 +161,8 @@ void TA1_0_IRQHandler(void)
     {
         curSpeed = (((leftCounter + rightCounter) / 2) * NOTCHLENGTH) / 100;
         totalDist += curSpeed; // increment total distance traveled
+        leftCounter = 0;       // reset leftCounter
+        rightCounter = 0;      // reset rightCounter
     }
     else
     {

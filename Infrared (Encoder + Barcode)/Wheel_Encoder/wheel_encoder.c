@@ -50,17 +50,17 @@ const Timer_A_UpModeConfig upConfig =
         TIMER_A_DO_CLEAR                    // Clear value
 };
 
-//void main(void)
+// void main(void)
 //{
-//    // init wheel encoder config
-//    initWheelEncoderConfig();
+//     // init wheel encoder config
+//     initWheelEncoderConfig();
 //
-//    // Loop to go to LPM3
-//    while (1)
-//    {
-//        MAP_PCM_gotoLPM3();
-//    }
-//}
+//     // Loop to go to LPM3
+//     while (1)
+//     {
+//         MAP_PCM_gotoLPM3();
+//     }
+// }
 
 void initWheelEncoderConfig()
 {
@@ -128,6 +128,8 @@ void TA1_0_IRQHandler(void)
     {
         curSpeed = (((leftCounter + rightCounter) / 2) * NOTCHLENGTH) / 100;
         totalDist += curSpeed; // increment total distance traveled
+        leftCounter = 0;       // reset leftCounter
+        rightCounter = 0;      // reset rightCounter
     }
     else
     {
