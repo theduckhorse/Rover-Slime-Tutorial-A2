@@ -111,7 +111,6 @@ void initWheelEncoderConfig()
     MAP_Timer_A_configureUpMode(TIMER_A1_BASE, &upConfig);
 
     /* Enabling interrupts and starting the timer */
-    MAP_Interrupt_enableSleepOnIsrExit();
     MAP_Interrupt_enableInterrupt(INT_TA1_0);
     MAP_Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
 
