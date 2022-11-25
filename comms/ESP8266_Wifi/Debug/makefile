@@ -125,35 +125,35 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-driverlib_empty_project.out \
+ESP8266_Wifi.out \
 
 EXE_OUTPUTS__QUOTED += \
-"driverlib_empty_project.out" \
+"ESP8266_Wifi.out" \
 
 BIN_OUTPUTS += \
-driverlib_empty_project.bin \
+ESP8266_Wifi.bin \
 
 BIN_OUTPUTS__QUOTED += \
-"driverlib_empty_project.bin" \
+"ESP8266_Wifi.bin" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "driverlib_empty_project.out"
+	@$(MAKE) --no-print-directory -Onone "ESP8266_Wifi.out"
 
 # Tool invocations
-driverlib_empty_project.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
+ESP8266_Wifi.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"/Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=TARGET_IS_MSP432P4XX --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number -z -m"driverlib_empty_project.map" --heap_size=320 --stack_size=512 -i"/Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"/Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="driverlib_empty_project_linkInfo.xml" --rom_model -o "driverlib_empty_project.out" $(ORDERED_OBJS)
+	"/Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=TARGET_IS_MSP432P4XX --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number -z -m"ESP8266_Wifi.map" --heap_size=320 --stack_size=512 -i"/Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"/Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="ESP8266_Wifi_linkInfo.xml" --rom_model -o "ESP8266_Wifi.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
-driverlib_empty_project.bin: $(EXE_OUTPUTS)
+ESP8266_Wifi.bin: $(EXE_OUTPUTS)
 	@echo 'Building secondary target: "$@"'
 	@echo 'Invoking: Arm Hex Utility'
-	"/Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armhex" --diag_wrap=off -o "driverlib_empty_project.bin" $(EXE_OUTPUTS__QUOTED)
+	"/Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armhex" --diag_wrap=off -o "ESP8266_Wifi.bin" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building secondary target: "$@"'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -167,7 +167,7 @@ clean:
 	-@echo ' '
 
 post-build:
-	-/Applications/ti/ccs1200/ccs/utils/tiobj2bin/tiobj2bin driverlib_empty_project.out driverlib_empty_project.bin /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armofd /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armhex /Applications/ti/ccs1200/ccs/utils/tiobj2bin/mkhex4bin
+	-/Applications/ti/ccs1200/ccs/utils/tiobj2bin/tiobj2bin ESP8266_Wifi.out ESP8266_Wifi.bin /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armofd /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armhex /Applications/ti/ccs1200/ccs/utils/tiobj2bin/mkhex4bin
 	-@echo ' '
 
 .PHONY: all clean dependents
