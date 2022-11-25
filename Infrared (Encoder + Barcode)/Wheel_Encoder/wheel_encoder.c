@@ -41,9 +41,6 @@ volatile uint32_t rightRPM;
 volatile float curSpeed;
 volatile float totalDist;
 
-/* Declare Functions */
-void initWheelEncoderConfig();
-
 /* Timer_A UpMode Configuration Parameter for 1 second timer */
 const Timer_A_UpModeConfig upConfig =
     {
@@ -91,7 +88,6 @@ void initWheelEncoderConfig()
     MAP_Timer_A_configureUpMode(TIMER_A1_BASE, &upConfig);
 
     /* Enabling interrupts and starting the timer */
-    MAP_Interrupt_enableSleepOnIsrExit();
     MAP_Interrupt_enableInterrupt(INT_TA1_0);
     MAP_Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
 
