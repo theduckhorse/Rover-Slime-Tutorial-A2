@@ -30,23 +30,10 @@
 /* DriverLib Includes */
 #include "driverlib.h"
 
-/* Standard Includes */
-#include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <math.h>
-#include <ctype.h>
+/* Header Includes */
+#include <wheel_encoder_uart_debug.h>
 
-/* Application Defines  */
-#define TIMER_PERIOD 1024       // timer period to get 1 sec timer
-#define TIMEVAL 60              // used to calculate RPM
-#define TOTALNOTCHES 20         // total notches on wheel
-#define CMtoM 100               // convert cm to m
-#define WHEELCIRCUMFERENCE 20.4 // wheel circumference in cm
-#define WHEELDIAMETER 0.65      // wheel diameter in cm
-#define NOTCHLENGTH 1.02        // 1 notch length in cm
-
-/* Global Variables */
+/* Init Global Variables */
 volatile uint32_t leftCounter;
 volatile uint32_t rightCounter;
 volatile uint32_t leftRPM;

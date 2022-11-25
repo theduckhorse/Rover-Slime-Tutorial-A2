@@ -30,23 +30,10 @@
 /* DriverLib Includes */
 #include "driverlib.h"
 
-/* Standard Includes */
-#include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <math.h>
-#include <ctype.h>
+/* Header Includes */
+#include <wheel_encoder.h>
 
-/* Application Defines  */
-#define TIMER_PERIOD 1024       // timer period to get 1 sec timer
-#define TIMEVAL 60              // used to calculate RPM
-#define TOTALNOTCHES 20         // total notches on wheel
-#define CMtoM 100               // convert cm to m
-#define WHEELCIRCUMFERENCE 20.4 // wheel circumference in cm
-#define WHEELDIAMETER 0.65      // wheel diameter in cm
-#define NOTCHLENGTH 1.02        // 1 notch length in cm
-
-/* Global Variables */
+/* Init Global Variables */
 volatile uint32_t leftCounter;
 volatile uint32_t rightCounter;
 volatile uint32_t leftRPM;
@@ -55,7 +42,6 @@ volatile float curSpeed;
 volatile float totalDist;
 
 /* Declare Functions */
-void uPrintf(unsigned char *TxArray);
 void initWheelEncoderConfig();
 
 /* Timer_A UpMode Configuration Parameter for 1 second timer */
@@ -69,17 +55,17 @@ const Timer_A_UpModeConfig upConfig =
         TIMER_A_DO_CLEAR                    // Clear value
 };
 
-void main(void)
-{
-    // init wheel encoder config
-    initWheelEncoderConfig();
-
-    // Loop to go to LPM3
-    while (1)
-    {
-        MAP_PCM_gotoLPM3();
-    }
-}
+//void main(void)
+//{
+//    // init wheel encoder config
+//    initWheelEncoderConfig();
+//
+//    // Loop to go to LPM3
+//    while (1)
+//    {
+//        MAP_PCM_gotoLPM3();
+//    }
+//}
 
 void initWheelEncoderConfig()
 {
@@ -115,16 +101,6 @@ void initWheelEncoderConfig()
 
     // Enable MASTER interrupts
     MAP_Interrupt_enableMaster();
-}
-
-void uPrintf(unsigned char *TxArray)
-{
-    unsigned int i = 0;
-    while (*(TxArray + i))
-    {
-        UART_transmitData(EUSCI_A0_BASE, *(TxArray + i)); // Write the character at the location specified by pointer
-        i++;                                              // Increment pointer to point to the next character
-    }
 }
 
 /* GPIO PORT2 ISR */
