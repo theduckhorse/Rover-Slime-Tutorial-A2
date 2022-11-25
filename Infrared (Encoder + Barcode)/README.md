@@ -17,7 +17,7 @@ The total distance is an aggregate of from the Current Speed every 1 second.
 
 Using this method will allow us to calculate the speed and distance the wheel traveled without the need for extra calculations using other forumlas which increases the load on the MSP.
 
-The general flow of the functions can be found below:
+The general flow of the functions and a comparison of the measured distance measured can be found below:
 
 ### Wheel Encoder ISR and Timer Flowchart
 ![ISR Flowchart](./assets/Wheel_Encoder_ISR_Flowchart.png)
@@ -40,5 +40,10 @@ To determine the width of the white and black parts, we used the highest and low
 
 To decode the characters we convert the width of the black and white parts of the barcode into binary 1 being wide and 0 being thin and combining the 9 binary values together, putting the 5 blacks infront and 4 whites behind eg. "011000010" allows us to finally decode the code39, using a if-else function that consist of most of the characters in code39 it allows us to covert the string of binary numbers to a character eg. "F" and return it. By decoding every 9 binary value and skipping the next value, we are able to decode any length of code39 as long as it is within the array size.
 
-Comparison betweeen Barcode Length and Measured Barcode Accuracy
+The general flow of the functions and comparisons of the sensor accuracy can be found below:
+
+### Barcode ISR Flowchart
+![Distance](./assets/Barcode_ISR_Flowchart.png)
+
+### Comparison betweeen Barcode Length and Measured Barcode Accuracy
 ![Distance](./assets/IR_Sensor_Accuracy_Performance_Chart.jpg)
