@@ -18,12 +18,17 @@
 ![Latency](./assets/protocol1way.png)
 
 ### Latency with MQTT
-#### There was a big difference is latency when we changed the publisher from another laptop to m5stick. We suspect it is due to the API (M5mqtt) that is causing a significant increase in latency (https://docs.m5stack.com/en/mpy/advanced/mqtt)
+#### When we changed the publisher from another laptop to m5stick, we noticed there was a big difference is latency. We suspect it is due to the API (M5mqtt) that is causing a significant increase in latency (https://docs.m5stack.com/en/mpy/advanced/mqtt)
 ![Latency](./assets/protocol1wayMQTT.png)
 
 ### Lactency for RTT
 #### For RTT, we are able to measure using Python Time library
 ![Latency](./assets/protocolRTT.png)
+
+## Blackbox testing
+### MSP432 -> UART -> M5STICK -> MQTT -> WEBPAGE
+#### Note: Most of the delay is caused by MQTT communication from UART to Webpage
+![Latency](./assets/blackbox.png)
 
 ## UART Performance
 ![UART Latency](./assets/UARTwifiChart.png)
