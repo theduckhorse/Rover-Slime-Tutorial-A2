@@ -25,7 +25,7 @@
 ![Latency](./assets/protocol1way.png)
 
 ### Latency with MQTT
-#### When we changed the publisher from another laptop to m5stick, we noticed there was a big difference is latency. We suspect it is due to the API (M5mqtt) that is causing a significant increase in latency (https://docs.m5stack.com/en/mpy/advanced/mqtt)
+#### When we changed the publisher from laptop to m5stick, we noticed there was a big difference is latency. We suspect it is due to the API (M5mqtt) that is causing a significant increase in latency (https://docs.m5stack.com/en/mpy/advanced/mqtt)
 ![Latency](./assets/protocol1wayMQTT.png)
 
 ### Lactency for RTT
