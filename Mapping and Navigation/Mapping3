@@ -67,6 +67,77 @@ int direction_Calculator(int compass, char direction){
     }
 }
 
+int back_To_Last_Junction(int **visited_Coordinates, int num_Of_Visited, int **junction_Coordinate, int num_Of_Junction_Nodes, int current_x, int current_y, int compass){
+    int goal_Position_x = 0;
+    int goal_Position_y = 0;
+    int tempX, tempY;
+    //check if current position already exist in junction_Coordinate array
+    if(checkVisited(num_Of_Junction_Nodes, junction_Coordinate, current_x, current_y)){
+        delete_element(junction_Coordinate, num_Of_Junction_Nodes, current_x, current_y);
+        num_Of_Junction_Nodes--;
+        return num_Of_Junction_Nodes;
+    }
+
+    if(num_Of_Junction_Nodes > 0){
+        goal_Position_x = junction_Coordinate[0][0];
+        goal_Position_y = junction_Coordinate[0][1];
+    }
+
+
+    //while current postion is not equal to goal position
+    while(current_x != goal_Position_x && current_y != goal_Position_y){
+        if(current_x > goal_Position_x && checkVisited(num_Of_Visited, visited_Coordinates, current_x - 1, current_y)){ // if goal is southwards, check if there is a space there, face south. Then move forward
+            while(compass != 2){
+                turnLeft();
+                direction_Calculator(compass, 'L');
+                
+            } 
+            moveForward();
+            current_x--;
+        }else if(current_x < goal_Position_x && checkVisited(num_Of_Visited, visited_Coordinates, current_x + 1, current_y)){ // if goal is northwards, check if there is a space there, face north. Then move forward
+            while(compass != 0){
+                turnLeft();
+                direction_Calculator(compass, 'L');
+                
+            }   
+            moveForward();
+            current_x++;  
+        }else if(current_y < goal_Position_y && checkVisited(num_Of_Visited, visited_Coordinates, current_x, current_y + 1)){ // if goal is Eastwards, check if there is a space there, face east.  Then move forward
+            while(compass != 1){
+                turnLeft();
+                direction_Calculator(compass, 'L');
+            }   
+            moveForward();
+            current_y++;  
+        }else if(current_y > goal_Position_y && checkVisited(num_Of_Visited, visited_Coordinates, current_x, current_y - 1)){ // if goal is Westwards, check if there is a space there, face west.  Then move forward
+            while(compass != 3){
+                turnLeft();
+                direction_Calculator(compass, 'L');
+            }   
+            moveForward();
+            current_y--;  
+        }
+    }
+    delete_element(junction_Coordinate, num_Of_Junction_Nodes, current_x, current_y);
+    num_Of_Junction_Nodes--;
+
+    return num_Of_Junction_Nodes;
+}
+
+void delete_element(int **array, int num_of_element, int x, int y){
+    int i, pos;
+    for(i = 0; i < num_of_element; i++){
+        if(array[i][0] == x && array[i][1] == y){
+            pos = i;
+            break;
+        }
+    }
+    for(i = pos - 1; i < num_of_element - 1; i++){
+        array[i] = array[i+1];
+    }
+    return 0;
+}
+
 int main(){
     int i, j;
     int x = 0;
@@ -211,73 +282,3 @@ int main(){
 
 }
 
-int back_To_Last_Junction(int **visited_Coordinates, int num_Of_Visited, int **junction_Coordinate, int num_Of_Junction_Nodes, int current_x, int current_y, int compass){
-    int goal_Position_x = 0;
-    int goal_Position_y = 0;
-    int tempX, tempY;
-    //check if current position already exist in junction_Coordinate array
-    if(checkVisited(num_Of_Junction_Nodes, junction_Coordinate, current_x, current_y)){
-        delete_element(junction_Coordinate, num_Of_Junction_Nodes, current_x, current_y);
-        num_Of_Junction_Nodes--;
-        return num_Of_Junction_Nodes;
-    }
-
-    if(num_Of_Junction_Nodes > 0){
-        goal_Position_x = junction_Coordinate[0][0];
-        goal_Position_y = junction_Coordinate[0][1];
-    }
-
-
-    //while current postion is not equal to goal position
-    while(current_x != goal_Position_x && current_y != goal_Position_y){
-        if(current_x > goal_Position_x && checkVisited(num_Of_Visited, visited_Coordinates, current_x - 1, current_y)){ // if goal is southwards, check if there is a space there, face south. Then move forward
-            while(compass != 2){
-                turnLeft();
-                direction_Calculator(compass, 'L');
-                
-            } 
-            moveForward();
-            current_x--;
-        }else if(current_x < goal_Position_x && checkVisited(num_Of_Visited, visited_Coordinates, current_x + 1, current_y)){ // if goal is northwards, check if there is a space there, face north. Then move forward
-            while(compass != 0){
-                turnLeft();
-                direction_Calculator(compass, 'L');
-                
-            }   
-            moveForward();
-            current_x++;  
-        }else if(current_y < goal_Position_y && checkVisited(num_Of_Visited, visited_Coordinates, current_x, current_y + 1)){ // if goal is Eastwards, check if there is a space there, face east.  Then move forward
-            while(compass != 1){
-                turnLeft();
-                direction_Calculator(compass, 'L');
-            }   
-            moveForward();
-            current_y++;  
-        }else if(current_y > goal_Position_y && checkVisited(num_Of_Visited, visited_Coordinates, current_x, current_y - 1)){ // if goal is Westwards, check if there is a space there, face west.  Then move forward
-            while(compass != 3){
-                turnLeft();
-                direction_Calculator(compass, 'L');
-            }   
-            moveForward();
-            current_y--;  
-        }
-    }
-    delete_element(junction_Coordinate, num_Of_Junction_Nodes, current_x, current_y);
-    num_Of_Junction_Nodes--;
-
-    return num_Of_Junction_Nodes;
-}
-
-void delete_element(int **array, int num_of_element, int x, int y){
-    int i, pos;
-    for(i = 0; i < num_of_element; i++){
-        if(array[i][0] == x && array[i][1] == y){
-            pos = i;
-            break;
-        }
-    }
-    for(i = pos - 1; i < num_of_element - 1; i++){
-        array[i] = array[i+1];
-    }
-    return 0;
-}
