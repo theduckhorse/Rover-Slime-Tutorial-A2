@@ -12,12 +12,13 @@
 #### - 4G Hotspot: 127.22Mbps download
 #### - Measured Using stopwatch app on a 120HZ refresh display Ipad Pro
 #### - Captured Using Pixel 6 120FPS slowmotion video capture
-#### - Note: M5stickcplus does not have an CMOS battery like PC/laptop to maintain time. It has to fetch the time from an NTP server which is not ms accurate, therefore we are unable to measure time using timestamp method. A physical setup was created to measure 1 way latency. High refresh display and capture is used to get latency as accurate as possible. We recorded the time on the stopwatch when the data was sent (the counter will increase on m5stick display), and when the data was received in the PC terminal.
+#### - Note: M5stickcplus does not have an CMOS battery like PC/laptop to maintain time. It has to fetch the time from an NTP server which is not ms accurate, therefore we are unable to measure time using timestamp method. A physical setup was created to measure 1 way latency. High refresh display and capture is used to get latency as accurate as possible. We recorded the time on the stopwatch when the data was sent (the counter will increase on m5stick display), and when the data was received in the PC terminal. Bluetooth latency is measured by sending 1 character for this test (further testing of bluetooth throughpput will be done later).
 
 ### Lactency for 1 way
 ![Latency](./assets/protocol1way.png)
 
 ### Latency with MQTT
+#### There was a big difference is latency when we changed the publisher from another laptop to m5stick. We suspect it is due to the API (M5mqtt) that is causing a significant increase in latency (https://docs.m5stack.com/en/mpy/advanced/mqtt)
 ![Latency](./assets/protocol1wayMQTT.png)
 
 ### Lactency for RTT
