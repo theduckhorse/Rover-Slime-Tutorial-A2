@@ -6,6 +6,12 @@
 * [Wi-Fi M5StickC PLUS](#wi-fi-m5stickc-plus)
 * [Wi-Fi ESP8266](#wi-fi-esp8266)
 
+## Configurations Tested
+### - MSP432-M5Stickcplus-UART
+### - MSP432-M5Stickcplus-I2C (not working)
+### - MSP432-ESP-UART
+### - PICO-M5Stickcplus-UART 
+### - UDP, TCP, MQTT, bluetooth, POST request
 
 ## IOT protocols
 ### Environment Setup
