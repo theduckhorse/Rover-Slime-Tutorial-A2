@@ -7,6 +7,7 @@
 /* add -lm to command line to compile with this header */
 #include <math.h>
 // #include "mappingPart3.c"
+// #include "../PWM and PID/PWMPID.c"
 
 #define map_size_rows 9
 #define map_size_cols 11
@@ -249,17 +250,14 @@ int main() {
     //Memory Allocation for 2D path array
     pathCoord = malloc(sizeof(int*) * p_len);
             if(pathCoord == NULL){
-                printf("whut");
                 exit(1);
             }
     
     for (i = 0; i < p_len; ++i) {
         pathCoord[i] = malloc(sizeof(int) * 2);
         if(pathCoord[i] == NULL){
-            printf("whut2");
             exit(1);
         }
-
     }
 
     if (not found) {
@@ -328,10 +326,12 @@ int follow_The_Path(int **path, int total_Cost){
 
 
 void turnLeft(){
+    // notchTurnLeft();
     printf("Turning Left 90 Degrees!\n");
 }
 
 void turnRight(){  
+    notchTurnRight();
     printf("Turning right 90 Degrees!\n");
 }
 
@@ -342,6 +342,7 @@ void uTurn(){
 
 void moveForward(){
     //Car moves forward by MOVE_DISTANCE [13.5cm]
+    // moveForward(8, 13);
     printf("Moving Forward!\n");
 }
 
