@@ -6,6 +6,9 @@
 * [Wi-Fi M5StickC PLUS](#wi-fi-m5stickc-plus)
 * [Wi-Fi ESP8266](#wi-fi-esp8266)
 
+## How to run webpage
+No installation required. Open MQTT Web.htm and subscribe to csc2003comms.
+
 ## Configurations Tested
 ### - MSP432-M5Stickcplus-UART
 ### - MSP432-M5Stickcplus-I2C (not working)
@@ -15,7 +18,7 @@
 
 ## IOT protocols
 ### Environment Setup
-#### - Tested using M5stickcplus
+#### - All configurations in this section are tested using M5stickcplus
 #### - 4G Hotspot: 127.22Mbps download
 #### - Measured Using stopwatch app on a 120HZ refresh display Ipad Pro
 #### - Captured Using Pixel 6 120FPS slowmotion video capture
