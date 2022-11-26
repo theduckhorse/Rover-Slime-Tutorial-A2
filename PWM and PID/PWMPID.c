@@ -20,14 +20,14 @@ int pidsecL;
 int pidsecR;
 int wRight;
 int wLeft;
-
+int lockout;
 double errorLeft;
 double integralLeft;
 double derivativeLeft;
 double lasterrorLeft;
 double outputLeft;
 
-
+int LR;
 int pwm;
 int pwm2;
 double percentage;
@@ -144,7 +144,8 @@ int main(void)
      Timer_A_configureUpMode(TIMER_A1_BASE, &up2Config);
      /* Enabling interrupts, starting the watchdog timer */
      Interrupt_enableInterrupt(INT_PORT1);
-     Interrupt_enableInterrupt(INT_TA1_0);
+     Interrupt_enableInterrupt(INT_T32_INT1);
+     Interrupt_enableInterrupt(INT_T32_INT2);
     // Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
      Interrupt_enableSleepOnIsrExit();
      Interrupt_enableMaster();
@@ -171,7 +172,8 @@ int main(void)
        //leftstatus = 1;
        //rightstatus = 1;
        //moveForward(9,300);
-
+       lockout = 0;
+       LR = 0;
      //notchTurnHalfLeft();
      /* Sleeping when not in use */
      while (1)
@@ -284,10 +286,12 @@ void turnRightHalf(void)
 }*/
 void notchTurnRight(void)
 {
+    turning = 1;
     pwmConfig.dutyCycle = 5400;
+    pwmConfig2.dutyCycle = 5400;
     notchcounter = 8;
     Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
-    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig);
+    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
     Interrupt_enableInterrupt(INT_PORT2);
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN6);
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN7);
@@ -299,10 +303,12 @@ void notchTurnRight(void)
 }
 void notchTurnHalfRight(void)
 {
+    turning = 1;
     pwmConfig.dutyCycle = 5400;
+    pwmConfig2.dutyCycle = 5400;
     notchcounter = 4;
     Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
-    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig);
+    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
     Interrupt_enableInterrupt(INT_PORT2);
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN6);
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN7);
@@ -314,10 +320,12 @@ void notchTurnHalfRight(void)
 }
 void notchTurnLeft(void)
 {
+    turning = 1;
     pwmConfig.dutyCycle = 5400;
+    pwmConfig2.dutyCycle = 5400;
     notchcounter = 8;
     Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
-    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig);
+    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
     Interrupt_enableInterrupt(INT_PORT2);
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN6);
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN7);
@@ -328,10 +336,12 @@ void notchTurnLeft(void)
 }
 void notchTurnHalfLeft(void)
 {
+    turning = 1;
     pwmConfig.dutyCycle = 5400;
+    pwmConfig2.dutyCycle = 5400;
     notchcounter = 4;
     Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
-    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig);
+    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
     Interrupt_enableInterrupt(INT_PORT2);
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN6);
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN7);
@@ -359,33 +369,57 @@ void PErrorInit(void)
                 TIMER_A_CCIE_CCR0_INTERRUPT_ENABLE ,    // Enable CCR0 interrupt
                 TIMER_A_DO_CLEAR                        // Clear value
         };
-
-    Timer_A_configureUpMode(TIMER_A1_BASE, &pidUpConfig);
-    Timer_A_configureUpMode(TIMER_A3_BASE, &pidUpConfig);
-    Interrupt_enableInterrupt(INT_TA1_0);
-    Interrupt_enableInterrupt(INT_TA3_0);
-    Timer_A_clearTimer(TIMER_A1_BASE);
-    Timer_A_clearTimer(TIMER_A3_BASE);
-}
-void TA1_0_IRQHandler(void)
-{
-    /* Increment global variable (count number of interrupt occurred) */
-    pidsecL++;
-    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
-    /* Clear interrupt flag */
-    Timer_A_clearCaptureCompareInterrupt(TIMER_A1_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
-}
-void TA3_0_IRQHandler(void)
-{
-    /* Increment global variable (count number of interrupt occurred) */
-    pidsecR++;
-    /* Clear interrupt flag */
-    Timer_A_clearCaptureCompareInterrupt(TIMER_A3_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
-}
-void PErrorStartL(void)
+    MAP_CS_setReferenceOscillatorFrequency(CS_REFO_128KHZ);
+    MAP_CS_initClockSignal(CS_MCLK, CS_REFOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    MAP_PCM_setPowerState(PCM_AM_LF_VCORE0);
+    Timer32_initModule(TIMER32_0_BASE, TIMER32_PRESCALER_1,TIMER32_32BIT, TIMER32_PERIODIC_MODE);
+    Timer32_initModule(TIMER32_1_BASE, TIMER32_PRESCALER_1,TIMER32_32BIT, TIMER32_PERIODIC_MODE);
+    Timer32_setCount(TIMER32_0_BASE, 128000);
+    Timer32_setCount(TIMER32_1_BASE, 128000);
+    Timer32_enableInterrupt(TIMER32_0_BASE);
+    Timer32_enableInterrupt(TIMER32_1_BASE);
+}/*
+void PErrorStart(void)
 {
     Timer_A_clearTimer(TIMER_A1_BASE);
     Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
+
+}
+static uint32_t PErrorEnd(void)
+{
+
+    uint32_t pulsetime=0;
+
+        /* Number of times the interrupt occurred (1 interrupt = 1000 ticks)
+    pulsetime = pidsec * TICKPERIOD;
+        /* Number of ticks (between 1 to 999) before the interrupt could occur
+    pulsetime += Timer_A_getCounterValue(TIMER_A1_BASE);
+    Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_STOP_MODE);
+    Timer_A_clearTimer(TIMER_A1_BASE);
+    pidsec = 0;
+
+    return pulsetime;
+}*/
+void T32_0_IRQHandler(void)
+{
+    /* Increment global variable (count number of interrupt occurred) */
+    pidsecL++;
+   //uPrintf("1 sec\n\r");
+    /* Clear interrupt flag */
+    Timer32_clearInterruptFlag(TIMER32_0_BASE);
+}
+void T32_1_IRQHandler(void)
+{
+    /* Increment global variable (count number of interrupt occurred) */
+    pidsecR++;
+
+    /* Clear interrupt flag */
+    Timer32_clearInterruptFlag(TIMER32_1_BASE);
+}
+void PErrorStartL(void)
+{
+    Timer32_setCount(TIMER32_0_BASE, 128000);
+    Timer32_startTimer(TIMER32_0_BASE, false);
 
 }
 static int PErrorEndL(void)
@@ -394,20 +428,19 @@ static int PErrorEndL(void)
     int pulsetime=0;
 
         /* Number of times the interrupt occurred (1 interrupt = 1000 ticks)    */
-    pulsetime = pidsecL * TICKPERIOD;
+    pulsetime = pidsecL * 128000;
 
         /* Number of ticks (between 1 to 999) before the interrupt could occur */
-    pulsetime += Timer_A_getCounterValue(TIMER_A1_BASE);
-    Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_STOP_MODE);
-    Timer_A_clearTimer(TIMER_A1_BASE);
+    pulsetime += (128000-Timer32_getValue(TIMER32_0_BASE));
+        Timer32_haltTimer(TIMER32_0_BASE);
+        Timer32_setCount(TIMER32_0_BASE, 128000);
     pidsecL = 0;
     return pulsetime;
 }
 void PErrorStartR(void)
 {
-    Timer_A_clearTimer(TIMER_A3_BASE);
-    Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
-
+    Timer32_setCount(TIMER32_1_BASE, 128000);
+    Timer32_startTimer(TIMER32_1_BASE, false);
 }
 static int PErrorEndR(void)
 {
@@ -415,11 +448,11 @@ static int PErrorEndR(void)
     int pulsetime=0;
 
         /* Number of times the interrupt occurred (1 interrupt = 1000 ticks)    */
-    pulsetime = pidsecR * TICKPERIOD;
+    pulsetime = pidsecR * 128000;
         /* Number of ticks (between 1 to 999) before the interrupt could occur */
-    pulsetime += Timer_A_getCounterValue(TIMER_A3_BASE);
-    Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_STOP_MODE);
-    Timer_A_clearTimer(TIMER_A3_BASE);
+    pulsetime += (128000-Timer32_getValue(TIMER32_1_BASE));
+    Timer32_haltTimer(TIMER32_1_BASE);
+    Timer32_setCount(TIMER32_1_BASE, 128000);
     pidsecR = 0;
     return pulsetime;
 }
@@ -430,7 +463,8 @@ void PORT1_IRQHandler(void)//unused
     GPIO_clearInterruptFlag(GPIO_PORT_P1, status);
     leftstatus = 1;
     rightstatus = 1;
-    moveForward(9,500);
+    //moveForward(9,300);
+    notchTurnRight();
     /*
     // Get  the current status of the GPIO
     uint32_t status = MAP_GPIO_getEnabledInterruptStatus(GPIO_PORT_P1);
@@ -488,9 +522,10 @@ void PORT1_IRQHandler(void)//unused
 void PORT2_IRQHandler(void)
 {
     uint32_t status;
-
+    status = MAP_GPIO_getEnabledInterruptStatus(GPIO_PORT_P2);
+    MAP_GPIO_clearInterruptFlag(GPIO_PORT_P2, status);
     counter++;
-
+/*
     if (counter == 40) {
 
         // Set the target PWM/NPM (Notches Per Minute) to hit (WIP need to determine the correct value)
@@ -551,8 +586,8 @@ void PORT2_IRQHandler(void)
             uPrintf(str);
             sprintf(str,"pwm: %d\n\r", pwm);
             uPrintf(str);
-            pwmConfig.dutyCycle = pwm;
-            Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
+            //pwmConfig.dutyCycle = pwm;
+            //Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
 
 
             //Calculate PID Output
@@ -577,105 +612,105 @@ void PORT2_IRQHandler(void)
             sprintf(str,"right percentage: %lf\n\r", percentage2);
             uPrintf(str);
             pwm2 =  floor((percentage2 / 100.0) * 6000.0);
-            pwmConfig2.dutyCycle = pwm2;
+           // pwmConfig2.dutyCycle = pwm2;
             sprintf(str," Right PWM: %d\n\r", pwm2);
             uPrintf(str);
             counter = 0;
-            Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
+            //Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
     }
 
-
+*/
     // Get interrupt status
-    status = MAP_GPIO_getEnabledInterruptStatus(GPIO_PORT_P2);
-    MAP_GPIO_clearInterruptFlag(GPIO_PORT_P2, status);
-    // increment left wheel counter
     if (status & GPIO_PIN6)
-    {
-        leftcounter++;
+        {
+            leftcounter++;
 
-        if(leftstatus == 1)
-        {
-            PErrorStartL();
-            leftstatus = 0;
+            if(leftstatus == 1)
+            {
+                PErrorStartL();
+                leftstatus = 0;
+            }
+            else if(leftstatus == 0)
+            {
+                //int check = PErrorEndL();
+                /*if (check >= 25000)
+                {
+                    wLeft = check;
+                }
+                else
+                {
+                    wLeft = 25000;
+                }*/
+                wLeft = PErrorEndL();
+                sprintf(str, "pulsewidthleft: %d\n\r", wLeft);
+                uPrintf(str);
+                leftstatus = 1;
+            }
         }
-        if(leftstatus == 0)
+
+        // increment right wheel counter
+        if (status & GPIO_PIN7)
         {
-            int check = PErrorEndL();
+            rightcounter++;
+
+            if(rightstatus == 1)
+            {
+                 PErrorStartR();
+                 rightstatus = 0;
+            }
+            else if(rightstatus == 0)
+            {
+                /*
+            int check = PErrorEndR();
             if (check >= 25000)
             {
-                wLeft = check;
+            wRight = check;
             }
             else
             {
-                wLeft = 25000;
+            wRight = 25000;
             }
-           // wLeft = PErrorEndL();
-            //sprintf(str, "pulsewidthleft: %d\n\r", wLeft);
-            //uPrintf(str);
-            leftstatus = 1;
-        }
-    }
 
-    // increment right wheel counter
-    if (status & GPIO_PIN7)
-    {
-        rightcounter++;
 
-        if(rightstatus == 1)
-        {
-             PErrorStartR();
-             rightstatus = 0;
-        }
-        if(rightstatus == 0)
-        {
-        int check = PErrorEndR();
-        if (check >= 25000)
-        {
-        wRight = check;
-        }
-        else
-        {
-        wRight = 25000;
-        }
-        //wRight = PErrorEndR();
-        //sprintf(str, "pulsewidthright: %d\n\r", wRight);
+             */
+                wRight = PErrorEndR();
+            sprintf(str, "pulsewidthright: %d\n\r", wRight);
 
-        //uPrintf(str);
-        rightstatus = 1;
+            uPrintf(str);
+            rightstatus = 1;
+            }
         }
-    }
-    if(leftcounter > notchcounter && rightcounter > notchcounter && turning == 1)
-    {
-            turning = 0;
+        if(leftcounter > notchcounter && rightcounter > notchcounter && turning == 1)
+        {
+                turning = 0;
+                GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);
+                GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
+                GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
+                GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN4);
+                disableWEncoderInterrupt();
+                leftcounter = 0;
+                rightcounter = 0;
+
+        }
+        if(distbased == 1 && leftcounter > distinnotch && rightcounter > distinnotch)
+        {
+            distbased = 0;
             GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);
             GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
             GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
             GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN4);
+            sprintf(str, "Left Wheel travelled: %d\n\r", leftcounter);
+            uPrintf(str);
+            sprintf(str, "Right Wheel travelled: %d\n\r", rightcounter);
+            uPrintf(str);
+            distinnotch = 0;
             disableWEncoderInterrupt();
+            leftcounter = 0;
+            rightcounter = 0;
+        }
 
-    }
-    if(distbased == 1 && leftcounter > distinnotch && rightcounter > distinnotch)
-    {
-        distbased = 0;
-        GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);
-        GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
-        GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
-        GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN4);
-        sprintf(str, "Left Wheel travelled: %d\n\r", leftcounter);
-        printf(str);
-        sprintf(str, "Right Wheel travelled: %d\n\r", rightcounter);
-        printf(str);
-        distinnotch = 0;
-        disableWEncoderInterrupt();
-        leftcounter = 0;
-        rightcounter = 0;
-        Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_STOP_MODE);
-        Timer_A_clearTimer(TIMER_A1_BASE);
-        Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_STOP_MODE);
-        Timer_A_clearTimer(TIMER_A3_BASE);
-    }
+        // clear interrupt flag
 
-    // clear interrupt flag
 
 }
 void disableWEncoderInterrupt(void){
