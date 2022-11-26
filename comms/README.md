@@ -7,20 +7,20 @@
 
 
 ## IOT protocols
-Environment Setup
-Tested using M5stickcplus
-4G Hotspot: 127.22Mbps download
-Measured Using stopwatch app on a 120HZ refresh display Ipad Pro
-Captured Using Pixel 6 120FPS slowmotion video capture
+### Environment Setup
+#### Tested using M5stickcplus
+#### 4G Hotspot: 127.22Mbps download
+#### Measured Using stopwatch app on a 120HZ refresh display Ipad Pro
+#### Captured Using Pixel 6 120FPS slowmotion video capture
 
-Lactency for 1 way
+### Lactency for 1 way
 ![Latency](./assets/protocol1way.png)
 
-Latency with MQTT
+### Latency with MQTT
 ![Latency](./assets/protocol1wayMQTT.png)
 
-Lactency for RTT
-For RTT, we are able to measure using Python Time library
+### Lactency for RTT
+#### For RTT, we are able to measure using Python Time library
 ![Latency](./assets/protocolRTT.png)
 
 ## UART Performance
