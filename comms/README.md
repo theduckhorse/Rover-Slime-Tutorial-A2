@@ -10,34 +10,38 @@
 No installation required. Open MQTT Web.htm and subscribe to csc2003comms.
 
 ## Configurations Tested
-### - MSP432-M5Stickcplus-UART
-### - MSP432-M5Stickcplus-I2C (not working)
-### - MSP432-ESP-UART
-### - PICO-M5Stickcplus-UART 
-### - UDP, TCP, MQTT, bluetooth, POST request
+* MSP432 → M5Stickcplus via UART
+* MSP432 → M5Stickcplus via I2C *(not working)*
+* MSP432 → ESP8266 via UART
+* PICO → M5StickC plus via UART
+* UDP, TCP, MQTT, bluetooth, POST request
 
 ## IOT protocols
 ### Environment Setup
-#### - All configurations in this section are tested using M5stickcplus
-#### - 4G Hotspot: 127.22Mbps download
-#### - Measured Using stopwatch app on a 120HZ refresh display Ipad Pro
-#### - Captured Using Pixel 6 120FPS slowmotion video capture
-#### - Note: M5stickcplus does not have an CMOS battery like PC/laptop to maintain time. It has to fetch the time from an NTP server which is not ms accurate, therefore we are unable to measure time using timestamp method. A physical setup was created to measure 1 way latency. High refresh display and capture is used to get latency as accurate as possible. We recorded the time on the stopwatch when the data was sent (the counter will increase on m5stick display), and when the data was received in the PC terminal.
+* All configurations in this section are tested using M5stickcplus
+* 4G Hotspot: 127.22Mbps download
+* Measured Using stopwatch app on a 120HZ refresh display Ipad Pro
+* Captured Using Pixel 6 120FPS slowmotion video capture
+
+ Note: M5stickcplus does not have a CMOS battery like PC/Laptop to maintain time. It has to fetch the time from an NTP server which is not ms accurate, therefore we are unable to measure time using timestamp method. A physical setup was created to measure 1 way latency. High refresh display and capture is used to get latency as accurate as possible. We recorded the time on the stopwatch when the data was sent (the counter will increase on m5stick display), and when the data was received in the PC terminal.
 
 ### Lactency for 1 way
 ![Latency](./assets/protocol1way.png)
 
 ### Latency with MQTT
-#### When we changed the publisher from laptop to m5stick, we noticed there was a big difference is latency. We suspect it is due to the API (M5mqtt) that is causing a significant increase in latency (https://docs.m5stack.com/en/mpy/advanced/mqtt)
+When we changed the publisher from laptop to M5StickC plus, we noticed there was a big difference is latency. We suspect it is due to the API (M5mqtt) that is causing a significant increase in latency ([M5Stack MQTT Documentation](https://docs.m5stack.com/en/mpy/advanced/mqtt))
+
 ![Latency](./assets/protocol1wayMQTT.png)
 
 ### Lactency for RTT
-#### For RTT, we are able to measure using Python Time library
+For RTT, we are able to measure using Python Time library
+
 ![Latency](./assets/protocolRTT.png)
 
 ## Blackbox testing
-### MSP432 -> UART -> M5STICK -> MQTT -> WEBPAGE
-#### Note: Most of the delay is caused by MQTT communication from UART to Webpage
+>MSP432 → UART → M5STICK → MQTT → WEBPAGE
+
+Note: Most of the delay is caused by MQTT communication from UART to Webpage
 ![Latency](./assets/blackbox.png)
 
 ## UART Performance
@@ -48,9 +52,9 @@ No installation required. Open MQTT Web.htm and subscribe to csc2003comms.
 |Wi-Fi M5stickC Plus |116.407 ms       |193.483 ms|551.724 KB/s|
 |Wi-Fi ESP8266       |193.483 ms       |207.000 ms|280.702 KB/s|
 
-We collated thirthy samples of the Round-Trip-Time(RTT) and collated the data to identify the differences between the M5StickC Plus & ESP8266 to decide on the final implementation. We are able to use the ping feature on the computer to ping the respective modules to test latency with 64KB of data. We are able to calculate the throughput using the formula: 
+We collated thirty samples of the Round-Trip-Time(RTT) and collated the data to identify the differences between the M5StickC Plus & ESP8266 to decide on the final implementation. We are able to use the ping feature on the computer to ping the respective modules to test latency with 64KB of data. We are able to calculate the throughput using the formula: 
 
-`Throughput = Window Size (bits) / Round-Trip-Time (s)`
+`Throughput(bps) = Window Size (bits) / Round-Trip-Time (s)`
 
 |Iterations          |M5stickC Plus (ms)    |ESP8266 (ms) |
 |--------------------|-----------------|-----------|
@@ -85,7 +89,7 @@ We collated thirthy samples of the Round-Trip-Time(RTT) and collated the data to
 |29	|78	|82.614|
 |30	|10.1|	525.259|
 
-We were also able to implement Bluetooth 4.0 LE through the M5StickC Plus. The theoretical throughput of 39.04 KB/s. After testing, we have decided to use the M5StickC Plus for the final integration into the car as it has proven to be more stable and provide a lower latency over the tests.
+We were also able to implement Bluetooth 4.0 LE through the M5StickC Plus. The theoretical throughput of 39.04 KB/s. After testing, we have decided to use the M5StickC Plus wi-fi configuration for the final integration into the car as it has proven to be more stable and provide a lower latency over the tests.
 
 ## Wi-Fi M5StickC PLUS
 ### Test Parameters:
