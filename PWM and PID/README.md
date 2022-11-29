@@ -49,7 +49,7 @@ $$t_{correction} = p + i + d$$
 
 Once we have $t_{correction} we need to know how much to increase the PWM, to do that we use a transformation curve to calulate the ```ideal tick to PWM``` that is:
 
-$$f(t) = frac{4000}{t}-10$$
+$$f(t) = \frac{4000}{t}-10$$
 
 This can be seen in the curve below:
 ![pid duty output mapping](./assets/pid_output_mapping_graph.jpeg)
@@ -62,7 +62,7 @@ Therefore, this is tackled by allowing the error to normalise over a short perio
 
 Then do the same for both motor.
 
-Once there is the $t_{correction\ right}$ and $t_{correction\ right}, we will convert the PWM percentage (0-100) to PWM dutycycle:
+Once there is the $t_{correction\ right}$ and $t_{correction\ right}$, we will convert the PWM percentage (0-100) to PWM dutycycle:
 
 $$dutycycle = \frac{PWM}{100} \times max\ dutycycle$$
 
