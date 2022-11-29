@@ -11,7 +11,7 @@
  * -GPIO PORT2 ISR-
  * ISR of left and right wheel encoder to increase counter
  *
- * -TA3_0 ISR-
+ * -TA1_0 ISR-
  * Timer ISR to calculate the RPM of the left and right wheel every 1 second
  *
  *                 MSP432P401
@@ -80,12 +80,12 @@ void initWheelEncoderConfig()
     // Enable Interrupt for port 2
     MAP_Interrupt_enableInterrupt(INT_PORT2);
 
-    /* Configuring Timer_A3 for Up Mode */
-    MAP_Timer_A_configureUpMode(TIMER_A3_BASE, &upConfig);
+    /* Configuring Timer_A1 for Up Mode */
+    MAP_Timer_A_configureUpMode(TIMER_A1_BASE, &upConfig);
 
     /* Enabling interrupts and starting the timer */
-    MAP_Interrupt_enableInterrupt(INT_TA3_0);
-    MAP_Timer_A_startCounter(TIMER_A3_BASE, TIMER_A_UP_MODE);
+    MAP_Interrupt_enableInterrupt(INT_TA1_0);
+    MAP_Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
 
     /* Enabling the FPU for floating point operation */
     MAP_FPU_enableModule();
@@ -119,8 +119,8 @@ void PORT2_IRQHandler(void)
     MAP_GPIO_clearInterruptFlag(GPIO_PORT_P2, status);
 }
 
-/* TA3_0 ISR */
-void TA3_0_IRQHandler(void)
+/* TA1_0 ISR */
+void TA1_0_IRQHandler(void)
 {
     // calculate the current speed in m/s using the average of left and right counter x 1 notch length, then convert cm to meters
     // the curSpeed will also be the current distance that the car has traveled in that 1 second
