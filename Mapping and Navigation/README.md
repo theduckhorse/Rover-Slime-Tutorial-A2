@@ -21,7 +21,7 @@ https://user-images.githubusercontent.com/97492848/204567292-2a334069-ecc6-40e3-
 
 ## Shortest Path Algorithm
 
-
+## Memory Usage on PICO
 
 ## Testing
 Our group had tested that the mapping and navigation algorithm vigorously to ensure that the algorithm is working.
