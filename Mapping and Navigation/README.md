@@ -43,4 +43,4 @@ The image below shows an example console output during our whitebox testing:
 
 Maze 1                     |  Maze 2                   | Maze 3                    |  Maze 4                   |  Maze 5
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![test1 result](./assets/shot1.jpeg)   |  ![test2 result](./assets/maze2.jpeg) |  ![test3 result](./assets/maze3.jpeg)  |  ![test4 result](./assets/maze4.jpeg) |  ![test5 result](./assets/maze5.jpeg) 
+![test6 result](./assets/shot1.jpeg)   |  ![test2 result](./assets/maze2.jpeg) |  ![test3 result](./assets/maze3.jpeg)  |  ![test4 result](./assets/maze4.jpeg) |  ![test5 result](./assets/maze5.jpeg) 
