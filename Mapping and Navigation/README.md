@@ -3,16 +3,15 @@ The mapping and navigation was done using Raspberry PICO. The demonstration vide
 
 ## Demonstration Video
 
-### Part 1 Shortest Path Algorithm (A*):
+### Part 1:
 
 https://user-images.githubusercontent.com/97492848/204567292-2a334069-ecc6-40e3-aa0e-a504c60b00fd.mp4
 
-### Part 2 (Mapping Algorithm):
+### Part 2:
 https://youtu.be/SDc_WiPf1T8
 
 ## Flow Charts
-
-
+<img width="438" alt="image" src="https://user-images.githubusercontent.com/87920891/204574060-d37e902c-44d5-47f9-a8f4-6e265a38feed.png">
 
 
 ## Movement
@@ -20,8 +19,6 @@ https://youtu.be/SDc_WiPf1T8
 
 
 ## Shortest Path Algorithm
-We have used the A* Alg
-
 
 ## Memory Usage on PICO
 
