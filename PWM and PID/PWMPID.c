@@ -5,6 +5,11 @@
 #include <stdint.h>
 #include <math.h>
 #include <stdbool.h>
+
+// Conversion curve from tick to PWM (%)
+#define TCONVD(tick) ((4000/tick)-10);
+
+
 int mode;
 int turning;
 int notchcounter;
@@ -348,8 +353,9 @@ void PORT1_IRQHandler(void)//unused
     rightstatus = 1;
     moveForward(5,10);
 }
-#define RPM(tick) ((1/((tick/1000000.0)*20))*60)
-#define TCONVD(tick) ((4000/tick)-10);
+
+
+
 void PORT2_IRQHandler(void)
 {
     uint32_t status;
@@ -361,11 +367,10 @@ void PORT2_IRQHandler(void)
 
     // Trigger only after 40 notch and when not turning
     if (counter >= 40 && turning == 0) {
-
-        // Set the target PWM/NPM (Notches Per Minute) to hit (WIP need to determine the correct value)
+            // PID
             
             // PID Left Motor
-            // Calculate error 
+            // Calculate Error 
             errorLeft = setPoint - wLeft/1000.0;
             //Calculate Integral
             integralLeft = integralLeft + errorLeft;
@@ -380,50 +385,56 @@ void PORT2_IRQHandler(void)
             //Calculate Derivative
             derivativeRight = errorRight - lasterrorRight;
 
-
-            //Calculate PID Output
+            //Calculate PID Output for left
             outputLeft = (kp * errorLeft) + (ki * integralLeft) + (kd * derivativeLeft);
-
    
             //Save Left Error to Last Error
             lasterrorLeft = errorLeft;
 
-            //If output is positive, increase pwm. otherwise decrease pwm (WIP need to check if correct way)
+            //Using conversion curve (tick -> pwm) left
             percentage = TCONVD(( wLeft/1000.0 + outputLeft));
 
+            // Cap the change to 100 < and > 49 percent left
             if (percentage > 100.0) {
                 percentage = 100.0;
             }else if (percentage < 49.0) {
                 percentage = 49.0;
             }
-
+            
+            // Convert to PWM from percentage on the left
             pwm =  floor(((percentage / 100.0) * 6000.0));
 
+            // Send the updated PWM for the left
             pwmConfig.dutyCycle = pwm;
             Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
 
 
-            //Calculate PID Output
+            //Calculate PID Output of the right
             outputRight = (kp * errorRight) + (ki * integralRight) + (kd * derivativeRight);
-            //Limit Output (WIP, need to change)
-            //Save Error to Last Error
+
+            //Save Error to Last Error on the right
             lasterrorRight = errorRight;
-            //If output is positive, increase pwm. otherwise decrease pwm
-            //Using conversion curve (tick -> pwm) 
+        
+            //Using conversion curve (tick -> pwm) on the right
             percentage2 = TCONVD(( wRight/1000.0 + outputRight));
 
+            // Cap the change to 100 < and > 49 percent on the right
             if (percentage2 > 100.0) {
                 percentage2 = 100.0;
             }else if (percentage2 < 49.0) {
                 percentage2 = 49.0;
             }
 
-
+            // Convert to PWM frmo percentage on the right
             pwm2 =  floor((percentage2 / 100.0) * 6000.0);
+            
+            // Send the updated PWM for the right
             pwmConfig2.dutyCycle = pwm2;
-
-            counter = 0;
             Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
+
+            //reset counter till next PID
+            counter = 0;
+
     }
 
 
