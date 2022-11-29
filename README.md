@@ -21,7 +21,7 @@ x | x | x | Ultrasonic
 x | x | x | Ultrasonic
 [xKhronox](https://github.com/xKhronoz) | Goh Yee Kit | 2100649 | Infrared
 x | x | x | Infrared
-x | x | x | Infrared
+[xunthongkkkkkk](https://github.com/xunthongkkkkkk) | Cham Xun Thong | 2102436 | Infrared
 
 ## Documentation
 - [Motor](./PWM&#32;and&#32;PID/README.md)
