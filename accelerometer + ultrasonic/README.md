@@ -1,9 +1,9 @@
 # CSC2003 Team A2 Ultrasonic & Accelerometer
 
 ## Demonstration Video
+
 Accelerometer- https://youtu.be/UvcUy4FrEqY
 Ultrasonic- https://youtu.be/dLIPSy2azj8
-
 
 ### Ultrasonic
 
@@ -21,3 +21,10 @@ The ultrasonic work by supplying a short 10 microseconds pulse to trigger the in
 #### Testing
 
 ### Accelerometer
+
+<b>How the Accelerometer work? </b> <br />
+The accelerometer sends data to the Raspberry Pi Pico using the I2C communication protocol. The communication begins when the Pico (Master) sends a start bit followed by the accelerometer's (slave) address and write request. The master waits for the slave's acknowledgement before sending a stop bit. Afterwards the master will send another start bit followed by the slave's register address and a read request. The slave will begin transmitting data till it receives the NACK from master and the stop bit. 12 registers are being read from the acclerometer. 6 registers are for the acceleration values (x, y, z) and 6 registers are for the gyroscope values (x, y, z).
+
+&nbsp;&nbsp;&nbsp; ![I2C](./Asset/I2C Protocol plan.png)
+
+#### Accelerometer Flowchart
