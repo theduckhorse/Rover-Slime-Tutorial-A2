@@ -112,7 +112,21 @@ int main(void)
         PCM_gotoLPM3InterruptSafe();
     }
 }
+void T32_0_IRQHandler(void)
+{
 
+    pidsecL++;//increment second counter
+   
+    Timer32_clearInterruptFlag(TIMER32_0_BASE);
+}
+void T32_1_IRQHandler(void)
+{
+
+    pidsecR++;//increment second counter
+
+    /* Clear interrupt flag */
+    Timer32_clearInterruptFlag(TIMER32_1_BASE);
+}
 void uPrintf(unsigned char * TxArray)
 {
     unsigned short i = 0;
@@ -124,23 +138,23 @@ void uPrintf(unsigned char * TxArray)
 }
 void driveMotor(int pwm, int pwm2)
 {
-    pwmConfig.dutyCycle = pwm;
+    pwmConfig.dutyCycle = pwm;// get the duty cycle
     pwmConfig2.dutyCycle = pwm2;
-    Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
+    Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);//generate pwm
     Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
-    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);//move forward
     GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN1);
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
     GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN4);
 }
 void stopMotor(){
-    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);//stop the wheels
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN4);
-    pwmConfig.dutyCycle = 0;
+    pwmConfig.dutyCycle = 0;//0% duty cycle
     pwmConfig2.dutyCycle = 0;
-    Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
+    Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);// generate the pwm with 0% duty cycle
     Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
 }
 /* EUSCI A2 UART ISR */
@@ -292,7 +306,7 @@ static int PErrorEndL(void)
     Timer32_haltTimer(TIMER32_0_BASE);
     pulsetime2 = (128000-Timer32_getValue(TIMER32_0_BASE));
     Timer32_setCount(TIMER32_0_BASE, 128000);
-    //pidsecL = 0;
+    pidsecL = 0;
     return pulsetime2;
 }
 void PErrorStartR(void)
@@ -471,7 +485,6 @@ void PORT2_IRQHandler(void)
             counter = 0;
         }
 
-        // clear interrupt flag
 
 
 }
