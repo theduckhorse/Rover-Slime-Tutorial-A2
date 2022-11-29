@@ -9,3 +9,5 @@ PID controller stands for proportional, integral and derivative controller. It c
 
 ![pid diagram](./assets/pid_diagram_ticks.png)
 ![flowchart](./assets/pwm_pid_flowchart.png)
+![pid duty output mapping](./assets/pid_output_mapping_graph.jpeg)
+![whitebox testing](./assets/whitebox_console_output.jpeg)
