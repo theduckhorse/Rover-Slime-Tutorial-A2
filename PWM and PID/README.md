@@ -1,5 +1,11 @@
 # PWM-PID Module
 
+## Demonstration Video
+https://user-images.githubusercontent.com/37941268/204538262-18135b31-3101-4888-8ef7-b1446c8ec3c6.mp4
+
+## Demo Day Slides
+![Link](https://docs.google.com/presentation/d/13oaejdjeMMZqrEURcsz2kgmVAE6iw2iwt9s_0WMcccU/edit?usp=sharing)
+
 ## PWM
 
 The PWM module uses timer A SMCLK to generate the pulse width required to move the DC motors. It comes with variable speed when moving forward. The default speed is 75% duty cycle at 4500. There are two more speed configuration at 50% duty cycle and 40% duty cycle.
