@@ -12,7 +12,7 @@ Github | Name | Student ID | Module
 [tansingthai](https://github.com/singthaitan) | Tan Sing Thai | 2102954 | Motor
 [kahbelank](https://github.com/kahbelank) | Kahbelan Kalisalvam Kelaver | 2101615 | Mapping
 [ShunYaoTeo](https://github.com/ShunYaoTeo) | Teo Shun Yao | 2101104  | Mapping
-[r4Ggit] (https://github.com/r4Ggit) | Lim Tian Yu, Charles | 2101227 | Mapping
+[r4Ggit](https://github.com/r4Ggit) | Lim Tian Yu, Charles | 2101227 | Mapping
 [Wind1337](https://github.com/Wind1337) | Teo Wen Yu Carlsen | 2101395 | Communications
 [theduckhorse](https://github.com/theduckhorse) | Lau Hong Sheng | 2100601 | Communications
 x | x | x | Communications
