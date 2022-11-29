@@ -3,8 +3,26 @@ The mapping and navigation was done using Raspberry PICO. The demonstration vide
 
 ## Demonstration Video
 
+### Part 1:
+
+https://user-images.githubusercontent.com/97492848/204567292-2a334069-ecc6-40e3-aa0e-a504c60b00fd.mp4
+
+### Part 2:
+
+
+## Flow Charts
+
+
+
+
 ## Movement
+
+
+
 ## Shortest Path Algorithm
+
+
+
 ## Testing
 Our group had tested that the mapping and navigation algorithm vigorously to ensure that the algorithm is working.
 
