@@ -8,7 +8,7 @@ The mapping and navigation was done using Raspberry PICO. The demonstration vide
 https://user-images.githubusercontent.com/97492848/204567292-2a334069-ecc6-40e3-aa0e-a504c60b00fd.mp4
 
 ### Part 2:
-
+https://youtu.be/SDc_WiPf1T8
 
 ## Flow Charts
 
@@ -21,7 +21,7 @@ https://user-images.githubusercontent.com/97492848/204567292-2a334069-ecc6-40e3-
 
 ## Shortest Path Algorithm
 
-
+## Memory Usage on PICO
 
 ## Testing
 Our group had tested that the mapping and navigation algorithm vigorously to ensure that the algorithm is working.
@@ -37,6 +37,7 @@ Maze 1                     |  Maze 2                   | Maze 3                 
 For whitebox testing, the algo was tested on its shortest path generation using the A* algorithm.
 
 The image below shows an example console output during our whitebox testing:
+The maze shows the coordiantes that it takes into account when moving. In addition, it shows the movement of the car as moving forward and turning left 90 degrees.
 
 Maze 1                     |  
 :-------------------------:
