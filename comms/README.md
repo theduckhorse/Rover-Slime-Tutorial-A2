@@ -25,15 +25,15 @@ The communications folders are divided into multiple folders:
 ***
 ## __Technologies__
 All devices and peripherals used in this project was provided from the university. Items used in this project are as follows:
-* [MSP432 P401R LaunchPad Development Kit](#https://www.amazon.com/Development-Boards-Kits-MSP432P401R-LaunchPad/dp/B01LWR1MSO)
-* [Raspberry Pi Pico](#https://www.raspberrypi.com/products/raspberry-pi-pico/)
-* [M5StickC Plus](#https://shop.m5stack.com/products/m5stickc-plus-esp32-pico-mini-iot-development-kit)
-    * [ESP32-PICO-D4](#https://www.espressif.com/en/products/socs/esp32)
-* [ESP8266 Wi-Fi Module](#https://www.espressif.com/en/products/socs/esp8266)
-* [Code Compiler Studio](#https://www.ti.com/tool/CCSTUDIO)
-* [Arduino IDE](#https://www.arduino.cc/en/software)
-* [UIFlow IDE](#https://flow.m5stack.com)
-* [Bluetooth Serial Terminal](#https://play.google.com/store/apps/details?id=de.kai_morich.serial_bluetooth_terminal&hl=en_SG&gl=US&pli=1)
+* [MSP432 P401R LaunchPad Development Kit](https://www.amazon.com/Development-Boards-Kits-MSP432P401R-LaunchPad/dp/B01LWR1MSO)
+* [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/)
+* [M5StickC Plus](https://shop.m5stack.com/products/m5stickc-plus-esp32-pico-mini-iot-development-kit)
+    * [ESP32-PICO-D4](https://www.espressif.com/en/products/socs/esp32)
+* [ESP8266 Wi-Fi Module](https://www.espressif.com/en/products/socs/esp8266)
+* [Code Compiler Studio](https://www.ti.com/tool/CCSTUDIO)
+* [Arduino IDE](https://www.arduino.cc/en/software)
+* [UIFlow IDE](https://flow.m5stack.com)
+* [Bluetooth Serial Terminal](https://play.google.com/store/apps/details?id=de.kai_morich.serial_bluetooth_terminal&hl=en_SG&gl=US&pli=1)
 
 ## Setup
 ### __Connecting ESP8266 Wi-Fi Module to MSP432R__
@@ -94,7 +94,12 @@ Steps to onnectivity between Pico & M5StickC Plus through UART. Sends the data f
 2. Navigate to pico/uart folder
 3. Copy hello_uart.uf2 into Pico volume
 4. Navigate to m5stickc/wifi
-5. Upload postReqTest.ino using Arduino IDE
+5. Modify postReqTest.py to your network
+```python
+ssid = ''
+password = ''
+```
+5. Upload postReqTest.py using M5Flow
 6. Power on M5StickC Plus then Pico
 7. View POST on https://ptsv2.com/t/aviendre
 
