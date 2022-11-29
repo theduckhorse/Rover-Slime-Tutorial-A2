@@ -16,6 +16,8 @@ The ultrasonic work by supplying a short 10 microseconds pulse to trigger the in
 
 #### Comparison betweeen Actual Distance and Measured Distance
 
+&nbsp;&nbsp;&nbsp; ![Distance](./Asset/ActualMeasuredDistance.PNG)
+
 #### Testing
 
 ### Accelerometer
