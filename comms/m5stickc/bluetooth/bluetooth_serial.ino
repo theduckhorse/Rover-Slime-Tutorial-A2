@@ -28,7 +28,7 @@ void setup() {
 
 void loop() {
   if (Serial.available()) {
-    SerialBT.write(Serial.read());
+    SerialBT.print(Serial.read());
   }
   if (SerialBT.available()) {
     char incomingChar = SerialBT.read();
@@ -38,8 +38,8 @@ void loop() {
     else{
       message = "";
     }
-    Serial.write(incomingChar);
-    SerialBT.write(incomingChar);
+    Serial.print(incomingChar);
+    SerialBT.print(incomingChar);
   }
   delay(10);
 }
