@@ -11,9 +11,11 @@ Our group had tested that the mapping and navigation algorithm vigorously to ens
 For black box testing, the algo was tested on its maze generation, the maze generation is done by making the 
 The result of blackbox for 5 different mazes can be seen from the demo video as well as the results of the test case are shown as follows:
 
-Maze 1:
+Maze 1                     |  Maze 2                   | Maze 3                    |  Maze 4                   |  Maze 5
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![test1 result](./assets/maze1.jpeg)   |  ![test2 result](./assets/maze2.jpeg) |  ![test3 result](./assets/maze3.jpeg)  |  ![test4 result](./assets/maze4.jpeg) |  ![test5 result](./assets/maze5.jpeg) 
 
-![test1 result](./assets/maze1.jpeg)
+
 
 Maze 2:
 
