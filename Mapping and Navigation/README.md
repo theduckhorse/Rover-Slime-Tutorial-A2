@@ -28,6 +28,9 @@ Respectively for other directions
 ## Shortest Path Algorithm
 The A* Search Algorithm selects the node at each stage based on a value, "f," which is a parameter equal to the sum of two additional factors, "g" and "h." It chooses the node or cell with the lowest "f" at each step and processes that node or cell. We define 'g' and 'h' below as simply as possible: g = the movement cost to move along the created path from the starting point to a particular square on the grid. h is the calculated cost of moving from a specific grid square to the desired location. This is frequently referred to as the heuristic, which is just another word for an educated guess. Because a variety of obstructions (such as walls) may be in the way, we actually can't know the distance until we find the path.
 
+<img width="574" alt="image" src="https://user-images.githubusercontent.com/97492848/204579232-d1b6e0df-cc54-445d-831b-1b27ef9e0a35.png">
+
+
 ## Memory Usage on PICO
 dynamic depending on the distance and number of nodes created
 memory usage of maze = max col(11) * max row(9) * size of integer(4BYTES) 
