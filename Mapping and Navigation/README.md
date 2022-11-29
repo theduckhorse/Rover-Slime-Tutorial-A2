@@ -36,7 +36,7 @@ memory usage of maze = max col(11) * max row(9) * size of integer(4BYTES)
 =396 bytes
 
 ## Optimization
-could be to use characters instead of integers as it takes up 1 byte instead of 4 
+to use characters instead of integers as it takes up 1 byte instead of 4 
 
 ## Testing
 Our group had tested that the mapping and navigation algorithm vigorously to ensure that the algorithm is working.
