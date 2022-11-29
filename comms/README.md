@@ -62,7 +62,7 @@ All devices and peripherals used in this project was provided from the universit
     >* GND → GND
 
 ### __Testing MSP432R UART w ESP8266 & HTTP__
-These intructions is to test connectivity between MSP432 & ESP8266 through UART. Sends a GET request to http://httpbin.org for the retrieval of origin ip address:
+Steps to test connectivity between MSP432 & ESP8266 through UART. Sends a GET request to http://httpbin.org for the retrieval of origin ip address:
 >MSP432R → ESP8266 → HTTP GET
 
 1. Fork repository
@@ -89,10 +89,23 @@ These intructions is to test connectivity between MSP432 & ESP8266 through UART.
 ### __Testing MSP432R UART w M5StickC Plus & Bluetooth__
 
 ### __Testing Pico UART w M5StickC Plus & HTTP__
+Steps to onnectivity between Pico & M5StickC Plus through UART. Sends the data from the:
+>Pico → M5StickC Plus → HTTP POST
 
+1. Fork repository
+2. Navigate to pico/uart folder
+3. Copy hello_uart.uf2 into Pico volume
+4. Navigate to m5stickc/wifi
+5. Upload postReqTest.ino using Arduino IDE
+6. Power on M5StickC Plus then Pico
+7. View POST on https://ptsv2.com/t/aviendre
+
+#### __Output__
+![ptsvlog](./assets/ptsvlog.png)
+![ptsvpacket](./assets/ptsvpacket.png)
 
 ### __Testing Pico UART w M5StickC Plus & Bluetooth__
-These intructions is to test connectivity between Pico & M5StickC Plus through UART. Sends the data from the:
+Steps to test connectivity between Pico & M5StickC Plus through UART. Sends the data from the:
 >Pico → M5StickC Plus → Bluetooth Serial Terminal
 
 1. Fork repository
