@@ -1,6 +1,8 @@
 # CSC2003 Team A2 Communications Module
 
-For the commmunications side of the team, we have tested the different networking protocols and the peripherals. We ran and tested each protocol against each other to see which is the best implementation for our team moving forward.
+For the commmunications side of the team, we have tested the different networking protocols and the peripherals. We tested each protocol and collated data.
+
+The communications folders are divided into multiple folders:
 
 ### Configurations Tested
 * MSP432 → M5Stickcplus via UART
@@ -9,42 +11,136 @@ For the commmunications side of the team, we have tested the different networkin
 * PICO → M5StickC plus via UART
 * UDP, TCP, MQTT, HTTP, Bluetooth 4.0
 
+***
 ## Table of contents
 * [Technologies](#technologies)
-* [IOT protocols](#iot-protocols)
+* [Setup](#setup)
 * [Blackbox testing](#blackbox-testing)
+* [IOT protocols](#iot-protocols)
 * [UART Performance](#uart-performance)
 * [Wi-Fi M5StickC Plus](#wi-fi-m5stickc-plus)
 * [Wi-Fi ESP8266](#wi-fi-esp8266)
 * [Bluetooth](#bluetooth)
-* [Bluetooth Serial Terminal](#https://play.google.com/store/apps/details?id=de.kai_morich.serial_bluetooth_terminal&hl=en_SG&gl=US&pli=1)
 
 ***
 ## __Technologies__
 All devices and peripherals used in this project was provided from the university. Items used in this project are as follows:
-* [MSP432 P401R LaunchPad Development Kit](#https://www.amazon.com/Development-Boards-Kits-MSP432P401R-LaunchPad/dp/B01LWR1MSO)
-* [Raspberry Pi Pico](#https://www.raspberrypi.com/products/raspberry-pi-pico/)
-* [M5StickC Plus](#https://shop.m5stack.com/products/m5stickc-plus-esp32-pico-mini-iot-development-kit)
-    * [ESP32-PICO-D4](#https://www.espressif.com/en/products/socs/esp32)
-* [ESP8266 Wi-Fi Module](#https://www.espressif.com/en/products/socs/esp8266)
-* [Code Compiler Studio](#https://www.ti.com/tool/CCSTUDIO)
-* [Arduino IDE](#https://www.arduino.cc/en/software)
-* [UIFlow IDE](#https://flow.m5stack.com)
+* [MSP432 P401R LaunchPad Development Kit](https://www.amazon.com/Development-Boards-Kits-MSP432P401R-LaunchPad/dp/B01LWR1MSO)
+* [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/)
+* [M5StickC Plus](https://shop.m5stack.com/products/m5stickc-plus-esp32-pico-mini-iot-development-kit)
+    * [ESP32-PICO-D4](https://www.espressif.com/en/products/socs/esp32)
+* [ESP8266 Wi-Fi Module](https://www.espressif.com/en/products/socs/esp8266)
+* [Code Compiler Studio](https://www.ti.com/tool/CCSTUDIO)
+* [Arduino IDE](https://www.arduino.cc/en/software)
+* [UIFlow IDE](https://flow.m5stack.com)
+* [Bluetooth Serial Terminal](https://play.google.com/store/apps/details?id=de.kai_morich.serial_bluetooth_terminal&hl=en_SG&gl=US&pli=1)
+
+## Setup
+### __Connecting ESP8266 Wi-Fi Module to MSP432R__
+![connectivity](./assets/connectME.png)
+* Connect pins (ESP8266 → MSP432R):
+    >* RX → P3.3 
+    >* TX → P3.2
+    >* RST → P6.1
+    >* 3v3 → 3V3
+    >* GND → GND
+
+### __Connecting M5StickC Plus to MSP432R__
+![connectivity](./assets/connectMM.png)
+* Connect pins (M5StickC Plus → MSP432R):
+    >* (RX) G33 → P3.3 (TX)
+    >* (TX) G32 → P3.2 (RX)
+    >* GND → GND
+
+### __Connecting M5StickC Plus to Pico__
+![connectivity](./assets/connectPM.png)
+* Connect pins (M5StickC Plus → Pico):
+    >* (RX) G33 → GP0 (TX)
+    >* (TX) G32 → GP1 (RX)
+    >* GND → GND
+
+### __Testing MSP432R UART w ESP8266 & HTTP__
+Steps to test connectivity between MSP432 & ESP8266 through UART. Sends a GET request to http://httpbin.org for the retrieval of origin ip address:
+>MSP432R → ESP8266 → HTTP GET
+
+1. Fork repository
+2. Navigate to msp432r folder
+3. Import folder ESP8266_Wifi into ccs
+4. Modify SSID and PASSWORD to your network in main.c:
+```c
+//Change this to the access point of your choice
+#define SSID "aviendre"
+#define PASSWORD "nurrawdha"
+```
+5. Open serial terminal to your board in CCS with:
+    >* Baud rate 115,200
+    >* Data size 8
+    >* Parity none
+    >* Stop bits 1
+6. Build & flash into board 
+
+#### __Output__
+![outputESP](./assets/outputESP.png)
+
+### __Testing MSP432R UART w M5StickC Plus__
+
+### __Testing MSP432R UART w M5StickC Plus & Bluetooth__
+
+### __Testing Pico UART w M5StickC Plus & HTTP__
+Steps to onnectivity between Pico & M5StickC Plus through UART. Sends the data from the:
+>Pico → M5StickC Plus → HTTP POST
+
+1. Fork repository
+2. Navigate to pico/uart folder
+3. Copy hello_uart.uf2 into Pico volume
+4. Navigate to m5stickc/wifi
+5. Modify postReqTest.py to your network
+```python
+ssid = ''
+password = ''
+```
+5. Upload postReqTest.py using M5Flow
+6. Power on M5StickC Plus then Pico
+7. View POST on https://ptsv2.com/t/aviendre
+
+#### __Output__
+![ptsvlog](./assets/ptsvlog.png)
+![ptsvpacket](./assets/ptsvpacket.png)
+
+### __Testing Pico UART w M5StickC Plus & Bluetooth__
+Steps to test connectivity between Pico & M5StickC Plus through UART. Sends the data from the:
+>Pico → M5StickC Plus → Bluetooth Serial Terminal
+
+1. Fork repository
+2. Navigate to pico/uart folder
+3. Copy hello_uart.uf2 into Pico volume
+4. Navigate to m5stickc/bluetooth
+5. Upload bluetoothM5.ino using Arduino IDE
+6. Connect phone to ESP32Test via bluetooth
+7. Open Bluetooth Serial Terminal on phone 
+8. Power on M5StickC Plus then Pico
+
+#### __Output__
+![wait](./assets/bluterm.png)
+
 ***
+## Blackbox testing
+>MSP432 → UART → M5STICK → MQTT → WEBPAGE
 
-## Configuration
-
-### How to run webpage
+### How to run blackbox testing
 No installation required. Open MQTT Web.htm and subscribe to csc2003comms. 
+
+Note: Most of the delay is caused by MQTT communication from UART to Webpage
+![Latency](./assets/blackbox.png)
 
 ## IOT protocols
 ### Environment Setup
-* All configurations in this section are tested using M5stickcplus
+* All configurations in this section are tested using M5StickC Plus
 * 4G Hotspot: 127.22Mbps download
 * Measured Using stopwatch app on a 120HZ refresh display Ipad Pro
 * Captured Using Pixel 6 120FPS slowmotion video capture
 
- Note: M5stickcplus does not have a CMOS battery like PC/Laptop to maintain time. It has to fetch the time from an NTP server which is not ms accurate, therefore we are unable to measure time using timestamp method. A physical setup was created to measure 1 way latency. High refresh display and capture is used to get latency as accurate as possible. We recorded the time on the stopwatch when the data was sent (the counter will increase on m5stick display), and when the data was received in the PC terminal.
+ Note: M5StickC plus does not have a CMOS battery like PC/Laptop to maintain time. It has to fetch the time from an NTP server which is not ms accurate, therefore we are unable to measure time using timestamp method. A physical setup was created to measure 1 way latency. High refresh display and capture is used to get latency as accurate as possible. We recorded the time on the stopwatch when the data was sent (the counter will increase on m5stick display), and when the data was received in the PC terminal.
 
 ### Lactency for 1 way
 ![Latency](./assets/protocol1way.png)
@@ -59,12 +155,7 @@ For RTT, we are able to measure using Python Time library
 
 ![Latency](./assets/protocolRTT.png)
 
-### Blackbox testing
->MSP432 → UART → M5STICK → MQTT → WEBPAGE
-
-Note: Most of the delay is caused by MQTT communication from UART to Webpage
-![Latency](./assets/blackbox.png)
-
+***
 ## UART Performance
 ![UART Latency](./assets/UARTwifiChart.png)
 
@@ -112,6 +203,7 @@ We collated thirty samples of the Round-Trip-Time(RTT) and collated the data to 
 
 We were also able to implement Bluetooth 4.0 LE through the M5StickC Plus. The theoretical throughput of 39.04 KB/s. After testing, we have decided to use the M5StickC Plus wi-fi configuration for the final integration into the car as it has proven to be more stable and provide a lower latency over the tests.
 
+***
 ## Wi-Fi M5StickC PLUS
 Below is the demo to show the message is able to be passed from the MSP432 / Pico to the M5StickC Plus through the UART serial communication. Data received will be displayed on the LCD of the M5StickC Plus
 ![m5wait](./assets/m5wait.png)
@@ -147,6 +239,7 @@ To check the round-trip-time, we used the ping feature within laptops. It will r
 
 Latency Test: 64 bytes sent from Laptop to MSP432
 
+***
 ## Bluetooth M5StickC Plus
 We will also be exploring the bluetooth connectivity with M5StickC Plus. We will have the MSP432 / Pico transfer data through UART and forward that data to a bluetooth terminal. Here is the sample of the M5StickC Plus running the bluetooth terminal using the Arduino IDE:
 ![wait](./assets/ardmsg.png)
@@ -154,3 +247,4 @@ We will also be exploring the bluetooth connectivity with M5StickC Plus. We will
 
 Below are the screenshots for the bluetooth terminal receiving the message.
 ![wait](./assets/bluterm.png)
+***

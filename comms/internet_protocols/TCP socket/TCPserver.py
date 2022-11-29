@@ -10,7 +10,7 @@ BUFFER = 4096
 tic = 0
 toc = 0
 
-# set up scoket with TCP (socket stream)
+# set up socket with TCP (socket stream)
 tcpsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # assigns an IP address and a port number to a socket instance
