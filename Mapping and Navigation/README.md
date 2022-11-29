@@ -11,8 +11,7 @@ https://user-images.githubusercontent.com/97492848/204567292-2a334069-ecc6-40e3-
 https://youtu.be/SDc_WiPf1T8
 
 ## Flow Charts
-
-
+<img width="438" alt="image" src="https://user-images.githubusercontent.com/87920891/204574060-d37e902c-44d5-47f9-a8f4-6e265a38feed.png">
 
 
 ## Movement
