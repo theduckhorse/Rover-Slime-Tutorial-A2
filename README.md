@@ -25,7 +25,7 @@ x | x | x | Infrared
 
 ## Documentation
 - [Motor](./PWM&#32;and&#32;PID/README.md)
-- [Mapping]()
+- [Mapping](./Mapping and Navigation/README.md)
 - [Communications]()
 - [Ultrasonic]()
 - [Infrared](./Infrared%20(Encoder%20%2B%20Barcode)/README.md)
