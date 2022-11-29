@@ -1,7 +1,11 @@
 # CSC2003 Team A2 Infrared Module
 ## Table of Centents
+* Video Demo
 * Wheel Encoder
 * Barcode Reader
+
+## Video Demo
+[Video Demo](https://youtu.be/8ZiBQdfVQCY)
 
 ## Wheel Encoder
 Our wheel encoder is able to output the Current Speed (M/s) and the Total Distance traveled.<br />
