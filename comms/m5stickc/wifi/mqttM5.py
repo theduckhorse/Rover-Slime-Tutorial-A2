@@ -9,7 +9,7 @@ def lcd_print(data):
     lcd.clear(lcd.BLACK)
     lcd.text(lcd.CENTER, lcd.CENTER, data)
 
-
+# do nothing at callback
 def callback(topic_data):
   pass
 
@@ -18,6 +18,7 @@ wifiCfg.screenShow()
 # Replace "SSID" and "PASSWORD" with your WiFi SSID and Password
 wifiCfg.doConnect("username", "password")
 
+# MQTT configuration
 m5mqtt = M5mqtt(
     "mosquitto",
     "test.mosquitto.org",
@@ -38,5 +39,7 @@ message = "test"
 
 # Read/write case
 while True:
+    #sleep for 1 second
     time.sleep(1)
+    # publish to topic
     m5mqtt.publish("csc2003comms", message)
