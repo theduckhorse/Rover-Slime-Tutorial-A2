@@ -13,8 +13,8 @@ Github | Name | Student ID | Module
 x | x | x | Mapping
 x | x | x | Mapping
 x | x | x | Mapping
-x | x | x | Communications
-x | x | x | Communications
+[Wind1337](https://github.com/Wind1337) | Teo Wen Yu Carlsen | 2101395 | Communications
+[theduckhorse](https://github.com/theduckhorse) | Lau Hong Sheng | 2100601 | Communications
 x | x | x | Communications
 x | x | x | Ultrasonic
 x | x | x | Ultrasonic
