@@ -1,6 +1,9 @@
 # CSC2003 Team A2 Ultrasonic & Accelerometer
 
 ## Demonstration Video
+Accelerometer- https://youtu.be/UvcUy4FrEqY
+Ultrasonic- https://youtu.be/dLIPSy2azj8
+
 
 ### Ultrasonic
 
