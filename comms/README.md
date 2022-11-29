@@ -83,8 +83,17 @@ Steps to test connectivity between MSP432 & ESP8266 through UART. Sends a GET re
 ![outputESP](./assets/outputESP.png)
 
 ### __Testing MSP432R UART w M5StickC Plus__
+1. Fork repository
+2. Navigate to msp432r/Assignment_UART_Car
+3. Compile and flash the code using Code Composer Studio
+4. Copy m5stickc/wifi/car.py to M5StickCPlus main.py
+5. Replace SSID and PASSWORD with your WiFi SSID and password
 
 ### __Testing MSP432R UART w M5StickC Plus & Bluetooth__
+1. Fork repository
+2. Navigate to msp432r/Assignment_UART_Car
+3. Compile and flash the code using Code Composer Studio
+4. Flash m5stickc/bluetooth/bluetooth_serial.ino to M5StickCPlus
 
 ### __Testing Pico UART w M5StickC Plus & HTTP__
 Steps to onnectivity between Pico & M5StickC Plus through UART. Sends the data from the:

@@ -21,24 +21,24 @@ lcd_print("hello world")
 wifiCfg.screenShow()
 wifiCfg.doConnect("username", "password")
 
-# set up scoket with UDP (socket datagram)
-udpsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# set up scoket with TCP (socket datagram)
+tcpsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # connect to socket
-udpsocket.connect((HOST, PORT))
+tcpsocket.connect((HOST, PORT))
 
 # send packet without specified receiver
 #udpsocket.send(DATA)
 
 # send packet 
-udpsocket.sendto("INIT", (HOST, PORT))
+tcpsocket.sendto("INIT", (HOST, PORT))
 
 # counter to displayed on LCD
 count = 0
 
 while True:
     # receive buffer server
-    data = udpsocket.recv(BUFFER)
+    data = tcpsocket.recv(BUFFER)
 
     # increment counter
     count += 1
@@ -47,4 +47,4 @@ while True:
     lcd_print(str(count))
 
     # send a new packet to client
-    udpsocket.send(data)
+    tcpsocket.send(data)
