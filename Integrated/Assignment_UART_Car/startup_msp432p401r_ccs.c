@@ -58,7 +58,7 @@ extern unsigned long __STACK_END;
 extern void EUSCIA2_IRQHandler (void);
 extern void ADC14_IRQHandler (void);
 extern void PORT2_IRQHandler (void);
-extern void TA1_0_IRQHandler (void);
+extern void TA3_0_IRQHandler (void);
 extern void SysTick_Handler (void);
 
 
@@ -96,11 +96,11 @@ void (* const interruptVectors[])(void) =
     defaultISR,                             /* COMP1 ISR                 */
     defaultISR,                             /* TA0_0 ISR                 */
     defaultISR,                             /* TA0_N ISR                 */
-    TA1_0_IRQHandler,                       /* TA1_0 ISR                 */
+    defaultISR,                             /* TA1_0 ISR                 */
     defaultISR,                             /* TA1_N ISR                 */
     defaultISR,                             /* TA2_0 ISR                 */
     defaultISR,                             /* TA2_N ISR                 */
-    defaultISR,                             /* TA3_0 ISR                 */
+    TA3_0_IRQHandler,                       /* TA3_0 ISR                 */
     defaultISR,                             /* TA3_N ISR                 */
     defaultISR,                             /* EUSCIA0 ISR               */
     defaultISR,                             /* EUSCIA1 ISR               */
