@@ -66,7 +66,7 @@ Once there is the $t_{correction\ right}$ and $t_{correction\ left}$, we will co
 
 $$dutycycle = \frac{PWM}{100} \times max\ dutycycle$$
 
-Then, the PWM is updated.
+Then, the PWM is updated. This will happened multiple times, repeating after every $n$ intervals. The more times its called the smaller the error (in theory)
 
 
 ## Flowchart
