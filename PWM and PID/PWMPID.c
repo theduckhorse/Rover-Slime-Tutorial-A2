@@ -355,14 +355,21 @@ void PORT2_IRQHandler(void)
     uint32_t status;
     status = MAP_GPIO_getEnabledInterruptStatus(GPIO_PORT_P2);
     MAP_GPIO_clearInterruptFlag(GPIO_PORT_P2, status);
+
+    //Counter for triggering the pid 
     counter++;
+
+    // Trigger only after 40 notch and when not turning
     if (counter >= 40 && turning == 0) {
 
         // Set the target PWM/NPM (Notches Per Minute) to hit (WIP need to determine the correct value)
             
-
+            // PID Left Motor
+            // Calculate error 
             errorLeft = setPoint - wLeft/1000.0;
+            //Calculate Integral
             integralLeft = integralLeft + errorLeft;
+            //Calculate Derivative
             derivativeLeft = errorLeft - lasterrorLeft;
 
             //PID Right Motor
@@ -374,18 +381,11 @@ void PORT2_IRQHandler(void)
             derivativeRight = errorRight - lasterrorRight;
 
 
-
-
-            //PID Left Motor
-            //Calculate Error (Proportional)
-            
-            //Calculate Integral
-            //Calculate Derivative
             //Calculate PID Output
             outputLeft = (kp * errorLeft) + (ki * integralLeft) + (kd * derivativeLeft);
 
-            //Limit Output (WIP, need to change)
-            //Save Error to Last Error
+   
+            //Save Left Error to Last Error
             lasterrorLeft = errorLeft;
 
             //If output is positive, increase pwm. otherwise decrease pwm (WIP need to check if correct way)
@@ -408,8 +408,10 @@ void PORT2_IRQHandler(void)
             //Limit Output (WIP, need to change)
             //Save Error to Last Error
             lasterrorRight = errorRight;
-            //If output is positive, increase pwm. otherwise decrease pwm (WIP need to check if correct way)
+            //If output is positive, increase pwm. otherwise decrease pwm
+            //Using conversion curve (tick -> pwm) 
             percentage2 = TCONVD(( wRight/1000.0 + outputRight));
+
             if (percentage2 > 100.0) {
                 percentage2 = 100.0;
             }else if (percentage2 < 49.0) {
