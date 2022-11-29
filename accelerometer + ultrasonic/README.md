@@ -1,6 +1,9 @@
 # CSC2003 Team A2 Ultrasonic & Accelerometer
 
 ## Demonstration Video
+Accelerometer- https://youtu.be/UvcUy4FrEqY
+Ultrasonic- https://youtu.be/dLIPSy2azj8
+
 
 ### Ultrasonic
 
@@ -9,7 +12,7 @@ The ultrasonic work by supplying a short 10 microseconds pulse to trigger the in
 
 #### Ultrasonic Flowchart
 
-&nbsp;&nbsp;&nbsp; ![Distance](./\Asset\Ultrasonic_chart.jpg)
+&nbsp;&nbsp;&nbsp; ![Distance](./Asset/Ultrasonic_chart.jpg)
 
 #### Comparison betweeen Actual Distance and Measured Distance
 
