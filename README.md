@@ -19,7 +19,7 @@ x | x | x | Communications
 x | x | x | Ultrasonic
 x | x | x | Ultrasonic
 x | x | x | Ultrasonic
-x | x | x | Infrared
+[xKhronox](https://github.com/xKhronoz) | Goh Yee Kit | 2100649 | Infrared
 x | x | x | Infrared
 x | x | x | Infrared
 
@@ -28,4 +28,4 @@ x | x | x | Infrared
 - [Mapping]()
 - [Communications]()
 - [Ultrasonic]()
-- [Infrared]()
+- [Infrared](./Infrared%20(Encoder%20%2B%20Barcode)/README.md)

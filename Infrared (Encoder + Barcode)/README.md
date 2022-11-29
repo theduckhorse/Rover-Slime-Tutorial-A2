@@ -14,6 +14,7 @@ The total distance is an aggregate of from the Current Speed every 1 second.
 
 Using this method will allow us to calculate the speed and distance the wheel traveled without the need for extra calculations using other forumlas which increases the load on the MSP.
 
+### Potential Improvements
 Using a wheel encoder with an ADC output instead of Digital output will help increase the accuracy of the data by reading the ADC's wave output allowing detection of half/quarter rotations.
 
 The general flow of the functions and a comparison of the measured distance measured can be found below:
