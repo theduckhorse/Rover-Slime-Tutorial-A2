@@ -62,7 +62,7 @@ Therefore, this is tackled by allowing the error to normalise over a short perio
 
 Then do the same for both motor.
 
-Once there is the $t_{correction\ right}$ and $t_{correction\ right}$, we will convert the PWM percentage (0-100) to PWM dutycycle:
+Once there is the $t_{correction\ right}$ and $t_{correction\ left}$, we will convert the PWM percentage (0-100) to PWM dutycycle:
 
 $$dutycycle = \frac{PWM}{100} \times max\ dutycycle$$
 
