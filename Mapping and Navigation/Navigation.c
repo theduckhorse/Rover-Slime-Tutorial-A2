@@ -94,7 +94,7 @@ void moveForward(){
     // {2, 1}, //move forward
     // {1, 1}, //  turn left, move forward
     // {1, 2}, //move forward
-// --------------------------------------
+// ---------------------------------------ASSUMING YOU ARE IN A 2D PLANE-------------------------------------
     // Firsly, Check whether previous y and current y coordinates are the same, means you are moving along the x - axis(Horizontally)
     // Secondly, Check if the current y is LESS than next y, which means you have gone DOWNWARDS from moving along the x axis
     // Thirdly, check the direction you are heading when u moving along the x axis, if current x is less then previous x, it means you are going from RIGHT TO LEFT
