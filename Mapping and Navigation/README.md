@@ -1,4 +1,5 @@
 # Mapping & Navigation
+The mapping and navigation was done using Raspberry PICO. The demonstration video will illustrate how PICO was used and the ouputs on the displayed on console. 
 
 ## Demonstration Video
 
