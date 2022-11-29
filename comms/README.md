@@ -3,7 +3,7 @@
 For the commmunications side of the team, we have tested the different networking protocols and the peripherals. We tested each protocol and collated data.
 
 The communications folders are divided into multiple folders:
-* Assignment_UART_Car
+* 
 
 
 ### Configurations Tested
