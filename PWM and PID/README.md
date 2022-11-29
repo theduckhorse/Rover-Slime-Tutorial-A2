@@ -8,7 +8,17 @@ https://user-images.githubusercontent.com/37941268/204538262-18135b31-3101-4888-
 
 ## PWM
 
-The PWM module uses timer A SMCLK with a divider of 10 to generate the duty cycle required to adjust the speed of the DC motors. The default speed is 75% duty cycle at 4500. There are two more speed configuration at 50% duty cycle at 3000 and 80% duty cycle at 4800. In order to check the correct amount of distance travelled, the input distance(cm) will be converted into wheel rotations based on the circumference, which is then converted into notches for wheel encoder to detect. The wheel diameter was measured with a ruler to be 6.7cm, which was not very consistent with the stated 6.5cm online. Therefore we calculated the circumference of the wheel to be 21.36 After the set amount of notches, the vehicle will stop. For the turning, testing was done to find the most accurate amount of notches required to rotate 90 and 45 degrees, which was 8 and 4 respectively. Therefore when the msp is in turning mode, it will move by the correct amount of notches before stopping.
+The PWM module uses timer A SMCLK with a divider of 10 to generate the duty cycle required to adjust the speed of the DC motors. The default speed is 75% duty cycle at 4500. There are two more speed configuration at 50% duty cycle at 3000 and 80% duty cycle at 4800. 
+
+### Movement
+In order to check the correct amount of distance travelled, the input distance(cm) will be converted into wheel rotations based on the circumference, which is then converted into notches for wheel encoder to detect. The wheel diameter was measured with a ruler to be 6.7cm, which was not very consistent with the stated 6.5cm online. Therefore we calculated the circumference of the wheel to be 21.36 After the set amount of notches, the vehicle will stop. 
+
+### Rotation
+For the turning, testing was done to find the most accurate amount of notches required to rotate 90 and 45 degrees, which was 8 and 4 respectively. Therefore when the msp is in turning mode, it will move by the correct amount of notches before stopping.
+
+
+## Error Derivation
+In order to find the error to use in the calculation for PID we decided to use time taken between two notches for both the left and right wheel. We decided to use both timer 32 modules, one for each side. So we configured the clock source to be 128khz and the clock counter to be 128000 in order to time it for 1 second. After the first notch triggers the wheel encoder's interrupt, the timer for that specific wheel is reset then is started, and when the next notch triggers the wheel encoder, the time stops and the value is saved. This is the value we use in deriving our errors, which we will define as $t$. 
 
 ## PID
 PID controller stands for proportional ($p$), integral ($i$) and derivative ($d$) controller. 
