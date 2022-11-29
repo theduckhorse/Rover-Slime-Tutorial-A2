@@ -1,8 +1,24 @@
 # PWM-PID Module
 
+## Demonstration Video
+https://user-images.githubusercontent.com/37941268/204538262-18135b31-3101-4888-8ef7-b1446c8ec3c6.mp4
+
+## Demo Day Slides
+![Link](https://docs.google.com/presentation/d/13oaejdjeMMZqrEURcsz2kgmVAE6iw2iwt9s_0WMcccU/edit?usp=sharing)
+
 ## PWM
 
-The PWM module uses timer A SMCLK to generate the pulse width required to move the DC motors. It comes with variable speed when moving forward. The default speed is 75% duty cycle at 4500. There are two more speed configuration at 50% duty cycle and 40% duty cycle.
+The PWM module uses timer A SMCLK with a divider of 10 to generate the duty cycle required to adjust the speed of the DC motors. The default speed is 75% duty cycle at 4500. There are two more speed configuration at 50% duty cycle at 3000 and 80% duty cycle at 4800. 
+
+### Movement
+In order to check the correct amount of distance travelled, the input distance(cm) will be converted into wheel rotations based on the circumference, which is then converted into notches for wheel encoder to detect. The wheel diameter was measured with a ruler to be 6.7cm, which was not very consistent with the stated 6.5cm online. Therefore we calculated the circumference of the wheel to be 21.36 After the set amount of notches, the vehicle will stop. 
+
+### Rotation
+For the turning, testing was done to find the most accurate amount of notches required to rotate 90 and 45 degrees, which was 8 and 4 respectively. Therefore when the msp is in turning mode, it will move by the correct amount of notches before stopping.
+
+
+## Error Derivation
+In order to find the error to use in the calculation for PID we decided to use time taken between two notches for both the left and right wheel. We decided to use both timer 32 modules, one for each side. So we configured the clock source to be 128khz and the clock counter to be 128000 in order to time it for 1 second. After the first notch triggers the wheel encoder's interrupt, the timer for that specific wheel is reset then is started, and when the next notch triggers the wheel encoder, the time stops and the value is saved. This is the value we use in deriving our errors, which we will define as $t$. 
 
 ## PID
 PID controller stands for proportional ($p$), integral ($i$) and derivative ($d$) controller. 
@@ -57,9 +73,11 @@ Therefore, this is tackled by allowing the error to normalise over a short perio
 
 Then do the same for both motor.
 
+
 ## Flowchart
 The flowchart below visualizes the logic flow of how our PWM and PID works
 ![flowchart](./assets/pwm_pid_flowchart.png)
+
 
 ## Testing
 
@@ -70,4 +88,5 @@ For black box testing, the car was tested on it's movements, the PID adjustments
 For whitebox testing, the number of ticks from one notch to the other notch for both wheels are printed on the serial console to visualize the movements of the wheels. The calculated percentage of the DC motor's output and the intensity of the PWM supplied to the DC motors is also printed on the serial console so that we know how the PID controller is adjusting the duty cycles of the PWM.
 
 The image below shows an example console output during our whitebox testing
+
 ![whitebox testing](./assets/whitebox_console_output.jpeg)

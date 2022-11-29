@@ -1,15 +1,16 @@
-/********************************************************************************/
-/*  Ultrasonic codes for A2:                                                    */
-/*  By: CHEO CHEANG MING                                                        */
-/*      AHMAD FAIRUZI BIN KADIR SAHIB                                           */
-/*      POH KAI BOON                                                            */
-/*                                                                              */
-/*                                                                              */
-/*  Credits to Lab 4 Code Partial Reference on Ultrasonic Sensor                */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/********************************************************************************/
+/********************************************************************************************************************************/
+/*  Ultrasonic codes for A2:                                                                                                    */
+/*  By: CHEO CHEANG MING                                                                                                        */
+/*      AHMAD FAIRUZI BIN KADIR SAHIB                                                                                           */
+/*      POH KAI BOON                                                                                                            */
+/*                                                                                                                              */
+/*                                                                                                                              */
+/*  Credits to Lab 4 Code Partial Reference on Ultrasonic Sensor                                                                */
+/*  Kalman filter obtained from:                                                                                                */
+/*  https://github.com/rizkymille/ultrasonic-hc-sr04-kalman-filter/blob/master/hc-sr04_kalman_filter/hc-sr04_kalman_filter.ino  */
+/*                                                                                                                              */
+/*                                                                                                                              */
+/********************************************************************************************************************************/
 
 #include "driverlib.h"
 
@@ -29,22 +30,6 @@ const Timer_A_ContinuousModeConfig continuousModeConfig =
 const Timer_A_CompareModeConfig CCR1Config =
     {
         TIMER_A_CAPTURECOMPARE_REGISTER_1,        // Use CCR2
-        TIMER_A_CAPTURECOMPARE_INTERRUPT_DISABLE, // Disable CCR interrupt
-        TIMER_A_OUTPUTMODE_SET_RESET,
-        0x000A // 10 Duty Cycle
-};
-
-const Timer_A_CompareModeConfig CCR2Config =
-    {
-        TIMER_A_CAPTURECOMPARE_REGISTER_2,        // Use CCR2
-        TIMER_A_CAPTURECOMPARE_INTERRUPT_DISABLE, // Disable CCR interrupt
-        TIMER_A_OUTPUTMODE_SET_RESET,
-        0x000A // 10 Duty Cycle
-};
-
-const Timer_A_CompareModeConfig CCR3Config =
-    {
-        TIMER_A_CAPTURECOMPARE_REGISTER_3,        // Use CCR2
         TIMER_A_CAPTURECOMPARE_INTERRUPT_DISABLE, // Disable CCR interrupt
         TIMER_A_OUTPUTMODE_SET_RESET,
         0x000A // 10 Duty Cycle
@@ -73,40 +58,6 @@ void Initalise_HCSR04(void)
     MAP_GPIO_clearInterruptFlag(GPIO_PORT_P3, GPIO_PIN7);
     MAP_GPIO_enableInterrupt(GPIO_PORT_P3, GPIO_PIN7);
     MAP_GPIO_interruptEdgeSelect(GPIO_PORT_P3, GPIO_PIN7, GPIO_LOW_TO_HIGH_TRANSITION);
-
-    /* For left ultrasonic sensor */
-
-    /* Configuring P2.5 as Output */
-    MAP_GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN6, GPIO_PRIMARY_MODULE_FUNCTION);
-    MAP_GPIO_setAsInputPin(GPIO_PORT_P3, GPIO_PIN0);
-
-    /* Configuring Timer_A0 for continuous Mode */
-    MAP_Timer_A_initCompare(TIMER_A1_BASE, &CCR2Config);
-    MAP_Timer_A_configureContinuousMode(TIMER_A1_BASE, &continuousModeConfig);
-    MAP_Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_CONTINUOUS_MODE);
-    MAP_Timer_A_disableInterrupt(TIMER_A1_BASE);
-
-    MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P3, GPIO_PIN0);
-    MAP_GPIO_clearInterruptFlag(GPIO_PORT_P3, GPIO_PIN0);
-    MAP_GPIO_enableInterrupt(GPIO_PORT_P3, GPIO_PIN0);
-    MAP_GPIO_interruptEdgeSelect(GPIO_PORT_P3, GPIO_PIN0, GPIO_LOW_TO_HIGH_TRANSITION);
-
-    /* For right ultrasonic sensor */
-
-    /* Configuring P2.5 as Output */
-    MAP_GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN5, GPIO_PRIMARY_MODULE_FUNCTION);
-    MAP_GPIO_setAsInputPin(GPIO_PORT_P3, GPIO_PIN6);
-
-    /* Configuring Timer_A0 for continuous Mode */
-    MAP_Timer_A_initCompare(TIMER_A1_BASE, &CCR3Config);
-    MAP_Timer_A_configureContinuousMode(TIMER_A1_BASE, &continuousModeConfig);
-    MAP_Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_CONTINUOUS_MODE);
-    MAP_Timer_A_disableInterrupt(TIMER_A1_BASE);
-
-    MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P3, GPIO_PIN6);
-    MAP_GPIO_clearInterruptFlag(GPIO_PORT_P3, GPIO_PIN6);
-    MAP_GPIO_enableInterrupt(GPIO_PORT_P3, GPIO_PIN6);
-    MAP_GPIO_interruptEdgeSelect(GPIO_PORT_P3, GPIO_PIN6, GPIO_LOW_TO_HIGH_TRANSITION);
 }
 
 int main(void)
@@ -124,14 +75,18 @@ int main(void)
     printf("Starting now \n");
     while (1)
     {
-
-        // selectSensor(GPIO_PORT_P3, GPIO_PIN0, tval1,tval2,duration); // Front ultrasonic sensor
-        selectSensor(GPIO_PORT_P3, GPIO_PIN0, tval1, tval2, duration); // Left ultrasonic sensor
+        selectSensor(GPIO_PORT_P3, GPIO_PIN7, tval1, tval2, duration); // Left ultrasonic sensor
     }
 }
 
 void selectSensor(uint32_t GPIO_PORT, uint32_t GPIO_PIN, uint32_t tval1, uint32_t tval2, uint32_t duration)
 {
+    static const double R = 40;
+    static const double H = 1.00;
+    static double Q = 10;
+    static double P = 0;
+    static double U_hat = 0;
+    static double K = 0;
 
     asm("    nop");
     asm("    nop");
@@ -152,6 +107,11 @@ void selectSensor(uint32_t GPIO_PORT, uint32_t GPIO_PIN, uint32_t tval1, uint32_
 
         duration = tval2 - tval1;    // get the duration of the pulse
         distance = duration / 58.0f; // To convert the echo
+
+        /* Code obtained from https://github.com/rizkymille/ultrasonic-hc-sr04-kalman-filter/blob/master/hc-sr04_kalman_filter/hc-sr04_kalman_filter.ino */
+        K = P * H / (H * P * H + R);
+        U_hat += +K * (distance - H * U_hat);
+        P = (1 - K * H) * P + Q; // Kalman filter
 
         if (distance < MIN_DISTANCE)
         { // Toggle LED if lesser than minimum distance
