@@ -47,6 +47,7 @@ int main(void)
     Interrupt_enableInterrupt(INT_EUSCIA2);
     Interrupt_enableMaster();
 
+	// Send test message
     uPrintf("Comms Test\n\r");
 
     while(1)

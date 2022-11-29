@@ -79,7 +79,7 @@ const eUSCI_UART_Config uartM5Config =
         EUSCI_A_UART_LOW_FREQUENCY_BAUDRATE_GENERATION, // No Oversampling
 };
 //![Simple UART Config]
-
+// 9600 baud rate
 const eUSCI_UART_Config uartConsoleConfig =
 {
         EUSCI_A_UART_CLOCKSOURCE_SMCLK,                 // SMCLK Clock Source
@@ -93,7 +93,7 @@ const eUSCI_UART_Config uartConsoleConfig =
         EUSCI_A_UART_OVERSAMPLING_BAUDRATE_GENERATION,  // Oversampling
 };
 //![Simple UART Config]
-
+// 1 sec timer
 const Timer_A_UpModeConfig upTimer =
 {
         TIMER_A_CLOCKSOURCE_SMCLK,
@@ -130,7 +130,8 @@ int main(void)
 
     Timer_A_configureUpMode(TIMER_A1_BASE, &upTimer);
     Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
-
+	
+	// Initialize 1KB data to be sent
     char *data;
     int kilobyte = (1024);
     data = malloc(kilobyte);
@@ -175,19 +176,27 @@ void uPrintfConsole(char * TxArray)
 }
 
 /* EUSCI A2 UART ISR */
+// Handles acknowledgement message from M5StickCPlus
 void EUSCIA2_IRQHandler(void)
 {
     char a = UART_receiveData(EUSCI_A2_BASE);
+	// Get remaining time in register
     float time = (float)Timer_A_getCounterValue(TIMER_A1_BASE);
+	// Stop timer
     Timer_A_stopTimer(TIMER_A1_BASE);
+	// Calculate remaining time in register
     time = time / 46875;
+	// Add remaining time into total time
     currentTime += time;
+	// Convert seconds to milliseconds
     float currentTimeMs = currentTime * 1000;
+	// Print time to buffer
     sprintf (buffer, "%2.4f", currentTimeMs);
     uPrintfConsole(">> Acknowledgement received at ");
     uPrintfConsole(buffer);
     uPrintfConsole(" ms");
     uPrintfConsole("\n\r");
+	// Calculate total throughput
     float throughput = 1 / currentTime;
     sprintf (buffer, "%2.4f", throughput);
     uPrintfConsole("Throughput per message: ");
@@ -196,6 +205,7 @@ void EUSCIA2_IRQHandler(void)
     uPrintfConsole("\n\r");
 }
 
+// Every 1 second interrupt
 void TA1_0_IRQHandler(void){
     Timer_A_clearCaptureCompareInterrupt(TIMER_A1_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
     currentTime += 1;
