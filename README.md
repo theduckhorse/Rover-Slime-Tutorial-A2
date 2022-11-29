@@ -20,7 +20,7 @@ x | x | x | Communications
 [fairuzzziii](https://github.com/fairuzzziii) | Ahmad Fairuzi Bin Kadir Sahib | 2101352 | Ultrasonic
 [CheangMingSIT](https://github.com/CheangMingSIT) | Cheo Cheang Ming | 2100965 | Ultrasonic
 [xKhronox](https://github.com/xKhronoz) | Goh Yee Kit | 2100649 | Infrared
-x | x | x | Infrared
+[XiangHui556](https://github.com/XiangHui556)| Zhang XiangHui | 2101993 | Infrared
 [xunthongkkkkkk](https://github.com/xunthongkkkkkk) | Cham Xun Thong | 2102436 | Infrared
 
 ## Documentation
