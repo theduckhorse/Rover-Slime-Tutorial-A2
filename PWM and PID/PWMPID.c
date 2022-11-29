@@ -87,56 +87,40 @@ int main(void)
 
     /* Halting the Watchdog */
     MAP_WDT_A_holdTimer();
-    GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN1);
+    GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN1);//configure wheel directional pins as output
     GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN2);
     GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN3);
     GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN4);
-    GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN5);
-    GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN0);
-    GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN0);
-    /* Configuring P1.0 as output */
+
+
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
-    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN4);
-     /* Configuring GPIO5.6 as the PWM output
-      * And GPIO 1.4 as Input button and interrupt is enabled
-      * There is a jumper cable to 1.0 for the LED */
-     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P5, GPIO_PIN6, GPIO_PRIMARY_MODULE_FUNCTION);
-     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN5, GPIO_PRIMARY_MODULE_FUNCTION);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN4);//set wheel direction pins to low in case
+
+     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P5, GPIO_PIN6, GPIO_PRIMARY_MODULE_FUNCTION);//set pins to pwm mode
+     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN5, GPIO_PRIMARY_MODULE_FUNCTION);// pin 5.6 and pin 2.5
      GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN1);
      GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN4);
      GPIO_clearInterruptFlag(GPIO_PORT_P1, GPIO_PIN4);
      GPIO_enableInterrupt(GPIO_PORT_P1, GPIO_PIN4);
      GPIO_clearInterruptFlag(GPIO_PORT_P1, GPIO_PIN1);
      GPIO_enableInterrupt(GPIO_PORT_P1, GPIO_PIN1);
-     /* Configuring Timer_A */
-    // pwmConfig2.dutyCycle = 1800;
-    // pwmConfig.dutyCycle = 1800;
-    // Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
-   //  Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
+
 
      //Timer_A_configureUpMode(TIMER_A1_BASE, &up2Config);
-     /* Enabling interrupts, starting the watchdog timer */
+     /* Enabling interrupt*/
      Interrupt_enableInterrupt(INT_PORT1);
      Interrupt_enableInterrupt(INT_T32_INT1);
      Interrupt_enableInterrupt(INT_T32_INT2);
-    // Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
+
      Interrupt_enableSleepOnIsrExit();
      Interrupt_enableMaster();
-    // enableWEncoderInterrupt();
-     //GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);
-      //   GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN1);
-       //  GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
-       //  GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN4);
+    
 
        Interrupt_enableInterrupt(INT_PORT2);
-       PErrorInit();
-       //leftstatus = 1;
-       //rightstatus = 1;
-       //moveForward(9,300);
-       lockout = 0;
-     //notchTurnHalfLeft();
+       PErrorInit();//init timers for pid
+       lockout = 0;//set lockout
      /* Sleeping when not in use */
      while (1)
      {
@@ -291,16 +275,14 @@ void PErrorInit(void)// prepare the timers for the timing between notches
 void T32_0_IRQHandler(void)
 {
 
-    pidsecL++;
-
+    pidsecL++;//increment when a second has elapsed between two notches
+   /* Clear interrupt flag */
     Timer32_clearInterruptFlag(TIMER32_0_BASE);
 }
 void T32_1_IRQHandler(void)
 {
-
-    pidsecR++;
-
-    /* Clear interrupt flag */
+    pidsecR++;//increment when a second has elapsed between two notches
+   /* Clear interrupt flag */
     Timer32_clearInterruptFlag(TIMER32_1_BASE);
 }
 void PErrorStartL(void)
@@ -328,8 +310,8 @@ static int PErrorEndL(void)
 }
 void PErrorStartR(void)
 {
-    Timer32_setCount(TIMER32_1_BASE, 128000);
-    Timer32_startTimer(TIMER32_1_BASE, true);
+    Timer32_setCount(TIMER32_1_BASE, 128000);//reset timer
+    Timer32_startTimer(TIMER32_1_BASE, true);//start timer
 }
 static int PErrorEndR(void)
 {
