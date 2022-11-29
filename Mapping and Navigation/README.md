@@ -37,6 +37,7 @@ Maze 1                     |  Maze 2                   | Maze 3                 
 For whitebox testing, the algo was tested on its shortest path generation using the A* algorithm.
 
 The image below shows an example console output during our whitebox testing:
+The maze shows the coordiantes that it takes into account when moving. In addition, it shows the movement of the car as moving forward and turning left 90 degrees.
 
 Maze 1                     |  
 :-------------------------:
