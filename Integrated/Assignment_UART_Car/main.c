@@ -115,14 +115,14 @@ int main(void)
 void T32_0_IRQHandler(void)
 {
 
-    pidsecL++;//increment second counter
-   
+    pidsecL++;//increment when a second has elapsed between two notches
+   /* Clear interrupt flag */
     Timer32_clearInterruptFlag(TIMER32_0_BASE);
 }
 void T32_1_IRQHandler(void)
 {
 
-    pidsecR++;//increment second counter
+    pidsecR++;//increment when a second has elapsed between two notches
 
     /* Clear interrupt flag */
     Timer32_clearInterruptFlag(TIMER32_1_BASE);
@@ -311,8 +311,8 @@ static int PErrorEndL(void)
 }
 void PErrorStartR(void)
 {
-    Timer32_setCount(TIMER32_1_BASE, 128000);
-    Timer32_startTimer(TIMER32_1_BASE, true);
+    Timer32_setCount(TIMER32_1_BASE, 128000);//reset the timer
+    Timer32_startTimer(TIMER32_1_BASE, true);// start the timer
 }
 static int PErrorEndR(void)
 {
