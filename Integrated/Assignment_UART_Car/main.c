@@ -25,6 +25,7 @@ double lasterrorLeft;
 double outputLeft;
 int pwm;
 int pwm2;
+int justmove;
 double percentage;
 double percentage2;
 double errorRight;
@@ -117,7 +118,27 @@ void uPrintf(unsigned char * TxArray)
         i++;                                             // Increment pointer to point to the next character
     }
 }
-
+void driveMotor(int pwm, int pwm2)
+{
+    pwmConfig.dutyCycle = pwm;
+    pwmConfig2.dutyCycle = pwm2;
+    Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
+    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);
+    GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN1);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
+    GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN4);
+}
+void stopMotor(){
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN2);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN3);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN4);
+    pwmConfig.dutyCycle = 0;
+    pwmConfig2.dutyCycle = 0;
+    Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfig);
+    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig2);
+}
 /* EUSCI A2 UART ISR */
 void EUSCIA2_IRQHandler(void)
 {
@@ -238,6 +259,7 @@ int cmToNotchConv(int dist)// method to convert from cm to notches
     return notch;
 }
 #define TICKPERIOD 1000
+
 void PErrorInit(void)
 {
 
@@ -458,4 +480,22 @@ void disableWEncoderInterrupt(void){
 void enableWEncoderInterrupt(void){
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN6);
     GPIO_enableInterrupt(GPIO_PORT_P2, GPIO_PIN7);
+}
+void TA1_0_IRQHandler(void)
+{
+    // calculate the current speed in m/s using the average of left and right counter x 1 notch length, then convert cm to meters
+    // the curSpeed will also be the current distance that the car has traveled in that 1 second
+    if (leftCounter > 0 && rightCounter > 0)
+    {
+        curSpeed = (((leftCounter + rightCounter) / 2) * NOTCHLENGTH) / 100;
+        totalDist += curSpeed; // increment total distance traveled
+        leftCounter = 0;       // reset leftCounter
+        rightCounter = 0;      // reset rightCounter
+    }
+    else
+    {
+        curSpeed = 0.0f;
+    }
+    MAP_Timer_A_clearCaptureCompareInterrupt(TIMER_A1_BASE,
+                                             TIMER_A_CAPTURECOMPARE_REGISTER_0);
 }
