@@ -27,5 +27,5 @@ Github | Name | Student ID | Module
 - [Motor](./PWM&#32;and&#32;PID/README.md)
 - [Mapping](./Mapping%20and%20Navigation/README.md)
 - [Communications](./comms)
-- [Ultrasonic]()
+- [Ultrasonic](./accelerometer%20%2B%20ultrasonic/README.md)
 - [Infrared](./Infrared%20(Encoder%20%2B%20Barcode)/README.md)
