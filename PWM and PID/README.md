@@ -7,5 +7,5 @@ The PWM module uses timer A SMCLK to generate the pulse width required to move t
 ## PID
 PID controller stands for proportional, integral and derivative controller. It calculates previous error against a target set point and derives the optimal pulse width to output.
 
-![Distance](./assets/pid_diagram.png)
+![Distance](./assets/pid_diagram_ticks.png)
 ![Distance](./assets/PID_PWM_Flowchart.png)
