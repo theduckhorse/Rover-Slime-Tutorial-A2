@@ -16,9 +16,9 @@ Github | Name | Student ID | Module
 [Wind1337](https://github.com/Wind1337) | Teo Wen Yu Carlsen | 2101395 | Communications
 [theduckhorse](https://github.com/theduckhorse) | Lau Hong Sheng | 2100601 | Communications
 x | x | x | Communications
-x | x | x | Ultrasonic
-x | x | x | Ultrasonic
-x | x | x | Ultrasonic
+[PohKaiBoon](https://github.com/PohKaiBoon) | Poh Kai Boon | 2101387 | Ultrasonic
+[fairuzzziii](https://github.com/fairuzzziii) | Ahmad Fairuzi Bin Kadir Sahib | 2101352 | Ultrasonic
+[CheangMingSIT](https://github.com/CheangMingSIT) | Cheo Cheang Ming | 2100965 | Ultrasonic
 [xKhronox](https://github.com/xKhronoz) | Goh Yee Kit | 2100649 | Infrared
 x | x | x | Infrared
 [xunthongkkkkkk](https://github.com/xunthongkkkkkk) | Cham Xun Thong | 2102436 | Infrared
