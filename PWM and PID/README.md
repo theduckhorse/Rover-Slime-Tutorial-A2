@@ -57,9 +57,11 @@ Therefore, this is tackled by allowing the error to normalise over a short perio
 
 Then do the same for both motor.
 
+
 ## Flowchart
 The flowchart below visualizes the logic flow of how our PWM and PID works
 ![flowchart](./assets/pwm_pid_flowchart.png)
+
 
 ## Testing
 
@@ -70,4 +72,5 @@ For black box testing, the car was tested on it's movements, the PID adjustments
 For whitebox testing, the number of ticks from one notch to the other notch for both wheels are printed on the serial console to visualize the movements of the wheels. The calculated percentage of the DC motor's output and the intensity of the PWM supplied to the DC motors is also printed on the serial console so that we know how the PID controller is adjusting the duty cycles of the PWM.
 
 The image below shows an example console output during our whitebox testing
+
 ![whitebox testing](./assets/whitebox_console_output.jpeg)
