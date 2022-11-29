@@ -1,15 +1,16 @@
-/********************************************************************************/
-/*  Ultrasonic codes for A2:                                                    */
-/*  By: CHEO CHEANG MING                                                        */
-/*      AHMAD FAIRUZI BIN KADIR SAHIB                                           */
-/*      POH KAI BOON                                                            */
-/*                                                                              */
-/*                                                                              */
-/*  Credits to Lab 4 Code Partial Reference on Ultrasonic Sensor                */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/********************************************************************************/
+/********************************************************************************************************************************/
+/*  Ultrasonic codes for A2:                                                                                                    */
+/*  By: CHEO CHEANG MING                                                                                                        */
+/*      AHMAD FAIRUZI BIN KADIR SAHIB                                                                                           */
+/*      POH KAI BOON                                                                                                            */
+/*                                                                                                                              */
+/*                                                                                                                              */
+/*  Credits to Lab 4 Code Partial Reference on Ultrasonic Sensor                                                                */
+/*  Kalman filter obtained from:                                                                                                */
+/*  https://github.com/rizkymille/ultrasonic-hc-sr04-kalman-filter/blob/master/hc-sr04_kalman_filter/hc-sr04_kalman_filter.ino  */
+/*                                                                                                                              */
+/*                                                                                                                              */
+/********************************************************************************************************************************/
 
 #include "driverlib.h"
 
@@ -107,9 +108,10 @@ void selectSensor(uint32_t GPIO_PORT, uint32_t GPIO_PIN, uint32_t tval1, uint32_
         duration = tval2 - tval1;    // get the duration of the pulse
         distance = duration / 58.0f; // To convert the echo
 
+        /* Code obtained from https://github.com/rizkymille/ultrasonic-hc-sr04-kalman-filter/blob/master/hc-sr04_kalman_filter/hc-sr04_kalman_filter.ino */
         K = P * H / (H * P * H + R);
         U_hat += +K * (distance - H * U_hat);
-        P = (1 - K * H) * P + Q; // kalman filter
+        P = (1 - K * H) * P + Q; // Kalman filter
 
         if (distance < MIN_DISTANCE)
         { // Toggle LED if lesser than minimum distance
