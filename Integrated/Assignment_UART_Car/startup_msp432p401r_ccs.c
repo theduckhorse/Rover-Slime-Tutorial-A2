@@ -60,7 +60,8 @@ extern void ADC14_IRQHandler (void);
 extern void PORT2_IRQHandler (void);
 extern void TA1_0_IRQHandler (void);
 extern void SysTick_Handler (void);
-
+extern void T32_0_IRQHandler(void);
+extern void T32_1_IRQHandler(void);
 
 /* Interrupt vector table.  Note that the proper constructs must be placed on this to  */
 /* ensure that it ends up at physical address 0x0000.0000 or at the start of          */
@@ -111,8 +112,8 @@ void (* const interruptVectors[])(void) =
     defaultISR,                             /* EUSCIB2 ISR               */
     defaultISR,                             /* EUSCIB3 ISR               */
     ADC14_IRQHandler,                       /* ADC14 ISR                 */
-    defaultISR,                             /* T32_INT1 ISR              */
-    defaultISR,                             /* T32_INT2 ISR              */
+    T32_0_IRQHandler,                             /* T32_INT1 ISR              */
+    T32_1_IRQHandler,                             /* T32_INT2 ISR              */
     defaultISR,                             /* T32_INTC ISR              */
     defaultISR,                             /* AES ISR                   */
     defaultISR,                             /* RTC ISR                   */
