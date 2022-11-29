@@ -3,8 +3,6 @@
 For the commmunications side of the team, we have tested the different networking protocols and the peripherals. We tested each protocol and collated data.
 
 The communications folders are divided into multiple folders:
-* 
-
 
 ### Configurations Tested
 * MSP432 → M5Stickcplus via UART
@@ -23,7 +21,6 @@ The communications folders are divided into multiple folders:
 * [Wi-Fi M5StickC Plus](#wi-fi-m5stickc-plus)
 * [Wi-Fi ESP8266](#wi-fi-esp8266)
 * [Bluetooth](#bluetooth)
-* [Bluetooth Serial Terminal](#https://play.google.com/store/apps/details?id=de.kai_morich.serial_bluetooth_terminal&hl=en_SG&gl=US&pli=1)
 
 ***
 ## __Technologies__
@@ -36,6 +33,7 @@ All devices and peripherals used in this project was provided from the universit
 * [Code Compiler Studio](#https://www.ti.com/tool/CCSTUDIO)
 * [Arduino IDE](#https://www.arduino.cc/en/software)
 * [UIFlow IDE](#https://flow.m5stack.com)
+* [Bluetooth Serial Terminal](#https://play.google.com/store/apps/details?id=de.kai_morich.serial_bluetooth_terminal&hl=en_SG&gl=US&pli=1)
 
 ## Setup
 ### __Connecting ESP8266 Wi-Fi Module to MSP432R__
