@@ -5,7 +5,7 @@ from paho.mqtt import client as mqtt_client
 
 broker = 'test.mosquitto.org'
 mqttport = 1883
-topic = "python/mqtt"
+topic = "csc2003comms"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 
@@ -27,15 +27,17 @@ def publish(client):
     msg_count = 0
     while True:
         time.sleep(1)
-        msg = f"messages: {msg_count}"
-        result = client.publish(topic, msg)
-        # result: [0, 1]
-        status = result[0]
-        if status == 0:
-            print(f"Send `{msg}` to topic `{topic}`")
-        else:
-            print(f"Failed to send message to topic {topic}")
-        msg_count += 1
+        result = client.publish(topic, "123,qwerty")
+        print(f"Send")
+        # msg = f"messages: {msg_count}"
+        # result = client.publish(topic, msg)
+        # # result: [0, 1]
+        # status = result[0]
+        # if status == 0:
+        #     print(f"Send `{msg}` to topic `{topic}`")
+        # else:
+        #     print(f"Failed to send message to topic {topic}")
+        # msg_count += 1
 
 
 

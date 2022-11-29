@@ -54,11 +54,11 @@
 			out_msg = r_message.payloadString;
 			out_msg = out_msg + "<br/>";
 			out_msg = "<b>" + out_msg + "</b>";
-			let msgArray = text.split(",");
+			let msgArray = out_msg.split(",");
 
 			try {
 				document.getElementById("out_messages").innerHTML += out_msg;
-				document.getElementById("Barcode").innerHTML += msgArray[0];
+				document.getElementById("Barcode").innerHTML = msgArray[0];
 			}
 			catch (err) {
 				document.getElementById("out_messages").innerHTML = err.message;
