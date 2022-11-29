@@ -11,7 +11,7 @@ https://user-images.githubusercontent.com/37941268/204538262-18135b31-3101-4888-
 The PWM module uses timer A SMCLK to generate the pulse width required to move the DC motors. It comes with variable speed when moving forward. The default speed is 75% duty cycle at 4500. There are two more speed configuration at 50% duty cycle and 40% duty cycle.
 
 ## PID
-PID controller stands for proportional ($p$), integral ($i$) and derivative ($d$) controller. 
+PID controller stands for proportional ( $p$ ), integral ( $i$ ) and derivative ( $d$ ) controller. 
 It calculates previous error against a target set point and derives the optimal pulse width to output. 
 
 The team will be collecting the number of ticks that passed using the timer per interval between notches.
