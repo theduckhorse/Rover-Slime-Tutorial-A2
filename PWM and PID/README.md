@@ -21,7 +21,7 @@ For the turning, testing was done to find the most accurate amount of notches re
 In order to find the error to use in the calculation for PID we decided to use time taken between two notches for both the left and right wheel. We decided to use both timer 32 modules, one for each side. So we configured the clock source to be 128khz and the clock counter to be 128000 in order to time it for 1 second. After the first notch triggers the wheel encoder's interrupt, the timer for that specific wheel is reset then is started, and when the next notch triggers the wheel encoder, the time stops and the value is saved. This is the value we use in deriving our errors, which we will define as $t$. 
 
 ## PID
-PID controller stands for proportional ($p$), integral ($i$) and derivative ($d$) controller. 
+PID controller stands for proportional ( $p$ ), integral ( $i$ ) and derivative ( $d$ ) controller. 
 It calculates previous error against a target set point and derives the optimal pulse width to output. 
 
 The team will be collecting the number of ticks that passed using the timer per interval between notches.
@@ -34,17 +34,17 @@ The Error can be calculated with the formula below:
 $$Error = t_{optimal} - t_{current}$$
 
 Then, we calculate the the the $p$:
-$$p = P * Error$$
+$$p = P \times Error$$
 $$where\ P = empirical\ constant\ value$$
 
 The integral, is the accumulation of error $i$: 
-$$i = I * \sum{Error}$$
+$$i = I \times \sum{Error}$$
 $$Where\ I = empirical\ constant\ value$$
 
 The $i$ will be used to modulate the fluctuation of the correction so that there is not a constant oscillation of error.
 
 Lastly, there is the derivative $d$:
-$$d= Error_{current} - Error_{last}$$
+$$d= D \times (Error_{current} - Error_{last})$$
 $$where\ D = empirical\ constant\ value$$
 
 The value of $d$ will signify how fast we want the error to be corrected.
@@ -54,13 +54,12 @@ The visual will provide a clearer idea of how PID works
 
 
 Finally, the last step is to combine the $p$, $i$, $d$:
-$
 
-4t_{correction} = p + i + d$$
+$$t_{correction} = p + i + d$$
 
 Once we have $t_{correction} we need to know how much to increase the PWM, to do that we use a transformation curve to calulate the ```ideal tick to PWM``` that is:
 
-$$\f(t) = frac{4000}{t}-10$$
+$$f(t) = \frac{4000}{t}-10$$
 
 This can be seen in the curve below:
 ![pid duty output mapping](./assets/pid_output_mapping_graph.jpeg)
@@ -72,6 +71,12 @@ Using the curve we convert $t$ to ideal PWM then we either adjust the PWM up or 
 Therefore, this is tackled by allowing the error to normalise over a short period of time. This mean that the "ideal" of the curve might not actually be the "ideal" PWM, rather it is after something the pwm will settle at the idealistic PWM for that the $t$. 
 
 Then do the same for both motor.
+
+Once there is the $t_{correction\ right}$ and $t_{correction\ left}$, we will convert the PWM percentage (0-100) to PWM dutycycle:
+
+$$dutycycle = \frac{PWM}{100} \times max\ dutycycle$$
+
+Then, the PWM is updated. This will happened multiple times, repeating after every $n$ intervals. The more times its called the smaller the error (in theory)
 
 
 ## Flowchart
