@@ -1,6 +1,9 @@
 # Mapping & Navigation
 The mapping and navigation was done using Raspberry PICO. The demonstration video will illustrate how PICO was used and the ouputs on the displayed on console. 
 
+## Usage of Raspberry Pico
+The Shortest Path algorithm as well as navigation can be executed with the raspberry PICO module with the "map_nav.uf2" file in the mapping and navigation repository.
+
 ## Demonstration Video
 
 ### Part 1:
