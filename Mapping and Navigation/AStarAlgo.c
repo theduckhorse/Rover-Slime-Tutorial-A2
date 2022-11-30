@@ -1,3 +1,4 @@
+//Code Adapted form https://rosettacode.org/wiki/A*_search_algorithm#C
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
