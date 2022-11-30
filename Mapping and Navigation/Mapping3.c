@@ -303,8 +303,8 @@ void build_Map(int **map, int **car_Coordinate, int num_of_Nodes){
             min_X = car_Coordinate[i][0];
         }
 
-         if(car_Coordinate[i][1] > max_Y){
-            max_Y = car_Coordinate[i][1];
+         if(car_Coordinate[i][1] < min_Y){
+            min_Y = car_Coordinate[i][1];
         }
     }
 
@@ -315,12 +315,12 @@ void build_Map(int **map, int **car_Coordinate, int num_of_Nodes){
     }
 
     for(i = 0; i < num_of_Nodes; i++){
-        if(car_Coordinate[i][0] < max_X){
+        if(car_Coordinate[i][0] > max_X){
             max_X = car_Coordinate[i][0];
         }
 
-         if(car_Coordinate[i][1] > min_Y){
-            min_X = car_Coordinate[i][1];
+         if(car_Coordinate[i][1] > max_Y){
+            max_Y = car_Coordinate[i][1];
         }
     }
 
