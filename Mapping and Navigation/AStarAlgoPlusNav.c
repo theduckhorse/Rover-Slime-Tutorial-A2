@@ -332,7 +332,7 @@ void turnLeft(){
 }
 
 void turnRight(){  
-    notchTurnRight();
+    // notchTurnRight();
     printf("Turning right 90 Degrees!\n");
 }
 
