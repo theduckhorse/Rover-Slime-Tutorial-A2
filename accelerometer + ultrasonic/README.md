@@ -19,8 +19,7 @@ The ultrasonic work by supplying a short 10 microseconds pulse to trigger the in
 &nbsp;&nbsp;&nbsp; ![Distance](./Asset/ActualMeasuredDistance.PNG)
 
 #### Testing
-
-![Distance](./Asset/Blackbox testing.mp4)
+https://youtu.be/KOb30Yf9JeQ
 
 ### Accelerometer
 
