@@ -4,7 +4,7 @@
 https://user-images.githubusercontent.com/37941268/204538262-18135b31-3101-4888-8ef7-b1446c8ec3c6.mp4
 
 ## Demo Day Slides
-![Link](https://docs.google.com/presentation/d/13oaejdjeMMZqrEURcsz2kgmVAE6iw2iwt9s_0WMcccU/edit?usp=sharing)
+[Link](https://docs.google.com/presentation/d/13oaejdjeMMZqrEURcsz2kgmVAE6iw2iwt9s_0WMcccU/edit?usp=sharing)
 
 ## PWM
 
