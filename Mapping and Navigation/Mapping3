@@ -231,6 +231,7 @@ int main(){
             if (num_Of_Junction_Nodes == 0){
                 printf("Maze Explored!");
                 initialization_flag == false;
+                build_Map(map, car_Coordinates, num_Of_Nodes);
                 break;
             }
             num_Of_Junction_Nodes = back_To_Last_Junction(visited_Coordinates, num_Of_Visited, junction_Coordinates, num_Of_Junction_Nodes, x, y, compass); // Moves car to a visted junction
@@ -290,17 +291,36 @@ int main(){
 }
 
 void build_Map(int **map, int **car_Coordinate, int num_of_Nodes){
-    int i;
+    int i, j;
+    int min_X = 0;
+    int min_Y = 0;
     int max_X = 0;
     int max_Y = 0;
     
+    // looking for min value of x and y as there will be negatives
     for(i = 0; i < num_of_Nodes; i++){
-        if(car_Coordinate[i][0] > max_X){
-            max_X = car_Coordinate[i][0];
+        if(car_Coordinate[i][0] < min_X){
+            min_X = car_Coordinate[i][0];
         }
 
          if(car_Coordinate[i][1] > max_Y){
-            max_X = car_Coordinate[i][1];
+            max_Y = car_Coordinate[i][1];
+        }
+    }
+
+    // Adding all x and y values to the abs value of the minimum current values to remove all negatives
+    for(i = 0; i < num_of_Nodes; i++){
+        car_Coordinate[i][0] += abs(min_X);
+        car_Coordinate[i][1] += abs(min_Y); 
+    }
+
+    for(i = 0; i < num_of_Nodes; i++){
+        if(car_Coordinate[i][0] < max_X){
+            max_X = car_Coordinate[i][0];
+        }
+
+         if(car_Coordinate[i][1] > min_Y){
+            min_X = car_Coordinate[i][1];
         }
     }
 
@@ -313,8 +333,13 @@ void build_Map(int **map, int **car_Coordinate, int num_of_Nodes){
             exit(1);
         }
     }
-
-    //TODO: Adjust car_Coordinate array to NOT have any negatives 
     //      Complete Build Map function
+    for(i=0; i < max_Y; i++){
+        for(j=0; j < max_X; j++){
+            memcpy(map[i][j] + 2, car_Coordinate[i][j], sizeof(car_Coordinate[i][j]));
+        }
+    }
+
+
 
 }
